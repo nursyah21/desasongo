@@ -32,7 +32,7 @@ export default{
         pompa: [false, true, true, true], //write
         mode: true, //write
         ppm: 0, //write 0-1500
-        ppmvalid: true
+        ppmvalid: true,
       },
       stats:{
         blog: true,

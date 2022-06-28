@@ -173,38 +173,32 @@ void loop()
 int stopauto = 0;
 void mode_auto_hidroponik(){
   hidroponikon();
-  if (state == 0){  /// ngisi air ///
-    if (cm1 > jaraktarget){
+  if (state == 0 && cm1 > jaraktarget){  /// ngisi air ///
       ision();
-    }
-    else if (cm1 < jaraktarget){
+  }
+  else if (state == 0  && cm1 < jaraktarget){
       isioff();
       state = 1;
-    }
   }
-  else if (state == 1){ /// nutrisi ///
-    if (ppm < ppmtarget){
-      nutrision();
-    }
-    else if (ppm >= ppmtarget){
+  else if (state == 1 && ppm < ppmtarget){ /// nutrisi ///
+    nutrision();
+  }
+  else if (state == 1 && ppm >= ppmtarget){
       nutrisioff();
       state = 2;
-    }
   }
-  else if (state == 2){ /// kuras air///
-    if ((ppm < (ppmtarget-100))&&(cm1 > (40.00))){
-      kurasoff();
-      stopauto++;
-      if(stopauto == 10){
-        stopauto=0;
-        mode_auto = false;
-      }
-      state=0;
+  else if (state == 2 && (ppm < (ppmtarget-100))&&(cm1 > (40.00)) ){ /// kuras air///
+    kurasoff();
+    stopauto++;
+    if(stopauto == 10){
+      stopauto=0;
+      mode_auto = false;
     }
-    else if ((ppm > (ppmtarget+100))||(cm1 < (10.00))){
+    state=0;
+  }
+  else if (state == 2 && (ppm > (ppmtarget+100))||(cm1 < (10.00))){
       kurason();
       state=2;
-    }
   }
 }
 

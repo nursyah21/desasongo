@@ -10,7 +10,7 @@ arduino = serial.Serial(port='/dev/ttyACM0', baudrate=9600, timeout=.1)
 
 VITE_SUPABASE_URL='https://wtdtmfajzokjvmuvgzjv.supabase.co'
 VITE_SUPABASE_ANON_KEY='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Ind0ZHRtZmFqem9ranZtdXZnemp2Iiwicm9sZSI6ImFub24iLCJpYXQiOjE2NjM3ODMwODAsImV4cCI6MTk3OTM1OTA4MH0.AJminOnfba8cOlYtLTPYUT78Gc00zCoSpejhb52tck4'
-
+TIMECHANGE = 12 # use time 24hours
 client = supabase.create_client(VITE_SUPABASE_URL, VITE_SUPABASE_ANON_KEY)
 
 # read 
@@ -18,6 +18,7 @@ class CheckStats:
   def __init__(self):
     self._running = True
     self.__count = 0
+    self.__datenow = datetime.now().day
     self.data = {
       "tangki1":0.0, #read float
       "tangki2":0.0, #read float
@@ -57,9 +58,9 @@ class CheckStats:
           self.data['auto'] = 1 if io.split('||')[10].split('=')[1].strip() == 'auto' else 0
 
           # check time to mode auto
-          if datetime.now().hour == 18:
+          if datetime.now().hour == TIMECHANGE and datetime.now().day != self.__datenow:
             arduino.write(bytes('auto','utf-8'))
-            # self.__auto = False
+            self.__datenow = datetime.now().day
           
 
         except:
