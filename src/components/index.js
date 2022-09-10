@@ -1,0 +1,7 @@
+export {default as Blog} from './Blog.vue'
+export {default as Editor} from './Editor.vue'
+export {default as Footer} from './Footer.vue'
+export {default as Home} from './Home.vue'
+export {default as Login} from './Login.vue'
+export {default as Modal} from './Modal.vue'
+export {default as Shop} from './Shop.vue'
