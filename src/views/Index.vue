@@ -34,7 +34,7 @@ export default{
     </div>
     <!-- banner -->
     <div class="flex justify-center">
-      <img src="../assets/banner.svg" alt="" class="mt-8">
+      <img src="../assets/banner.svg" alt="" class="mt-8 w-full">
     </div>
 
     <div class="sm:px-4">
