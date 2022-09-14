@@ -1,5 +1,8 @@
 <script>
 import {Modal,Home,Blog,Shop,Footer} from '../components'
+import utils from "../utils"
+import { supabase } from '../supabase'
+
 export default{
   components:{
     Modal,
@@ -7,7 +10,10 @@ export default{
     Blog,
     Shop,
     Footer
-},
+  },
+  mounted(){
+    utils.visited()
+  },
   data(){
     return{
       navbar:[

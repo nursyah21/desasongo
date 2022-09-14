@@ -12,9 +12,9 @@
     </div>
 
     <!-- video profile -->
-    <div class="my-4 sm:my-0 sm:pr-12 sm:py-12 sm:flex">
+    <div class="my-4 sm:my-0 sm:pr-12 sm:py-12 md:flex">
       <iframe width="637" height="358" src="https://www.youtube.com/embed/9HylJhIM5b8" title="Kampung Sayur Simo - Surabaya" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen class="w-full border sm:p-1 sm:shadow-md"></iframe>
-      <p class="mt-2 sm:pl-24 text-justify">
+      <p class="mt-2 md:pl-24 text-justify">
         Kampung ini dulunya agak kumuh dan kurang hijau, hingga tahun 2013 Bu Yaning terpilih sebagai ketua KT. Mengapa Bu Yaning mau menjadi RT karena Bu Yaning mempunyai misi yaitu bagaimana cara mengubah kampung ini menjadi bersih dan hijau... <br class="hidden sm:block"><a href="/blog/tentang-desa-songo" class="text-blue-500">readmore</a>
       </p>
     </div>
