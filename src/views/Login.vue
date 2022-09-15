@@ -12,8 +12,7 @@ export default{
       status:"",
       form:{
         name:"",
-        pass:"",
-        autologin: true
+        pass:""
       }
     }
   },
@@ -53,7 +52,7 @@ export default{
       }
 
       this.loading = false
-    } 
+    }
   }
 }
 </script>
@@ -70,7 +69,6 @@ export default{
       <form @submit.prevent="loginFunc(form.name, form.pass)">
         <input v-model="form.name" type="text" class="w-full border-2 p-1 my-1 outline-none" placeholder="username">
         <input v-model="form.pass" type="password" class="w-full border-2 p-1 my-1 outline-none" placeholder="password">
-        <input v-model="form.autologin" type="checkbox" name="" id="" class="mr-2">auto login
         <input type="submit" value="submit" class="border-2 w-full p-1 hover:underline">
       </form>
       <p class="text-center text-sm mt-2 text-amber">{{status}}</p>
