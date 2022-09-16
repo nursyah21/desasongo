@@ -22,7 +22,7 @@
     <!-- visit -->
     <div class="bg-[url('/static/kunjungi.jpeg')] flex text-white justify-center rounded-xl sm:rounded-3xl bg-cover h-48 sm:h-[40rem] items-center">
       <div>
-        <a href="https://wa.me/62812345678" class="sm:text-3xl font-bold sm:font-normal hover:underline bg-white bg-opacity-30 px-3 py-1 rounded-lg text-white">kunjungi sekarang</a>
+        <a href="https://wa.me/62812345678" class="sm:text-3xl hover:underline bg-white bg-opacity-30 px-3 py-1 rounded-lg text-white">kunjungi sekarang</a>
       </div>
     </div>
 

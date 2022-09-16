@@ -9,4 +9,7 @@
   a:hover{
     @apply underline;
   }
+  th,td{
+    @apply border;
+  }
 }

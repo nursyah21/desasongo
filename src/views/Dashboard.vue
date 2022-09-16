@@ -19,8 +19,15 @@ export default{
         {page: 'Dashboard', active:true},
         {page: 'Blog', active:false},
         {page: 'Shop', active:false},
-        {page: 'Komentar', active:false}
-      ]
+        {page: 'Statistics', active:false}
+      ],
+      hidroponik:{
+        ultrasonik: [0.1, 0.1, 0.1], //read
+        tds: 0.1, //read
+        pompa: [false, true, true, true], //write
+        mode: true, //write
+        ppm: 0, //write 0-1500
+      },
     }
   },
   methods:{
@@ -116,7 +123,7 @@ export default{
       
 
       this.loading = false
-    }
+    },
   }
 }
 
@@ -142,27 +149,67 @@ export default{
     <div :class="{hidden: !nav[0].active}" class="p-3">
       <!-- chart --> 
       <div id="chart" class="p-5 py-9 border shadow-md overflow-hidden"></div>
-      
+
+      <!-- hidroponik -->
+      <h1 class="mt-2 mx-2">Hidroponik</h1>
+      <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-6 select-none">
+        <!-- ultrasonik -->
+        <div v-for="i,idx in hidroponik.ultrasonik" class="border p-2 m-2 w-36 sm:w-48 text-center bg-blue-500 text-white cursor-default">
+          <span class="underline">ultrasonik {{idx + 1}}</span><br>
+          {{i}}
+        </div>
+        <!-- tds -->
+        <div class="border p-2 m-2 w-36 sm:w-48 text-center bg-blue-600 text-white cursor-default">
+          <span class="underline">tds</span><br>
+          {{hidroponik.tds}}
+        </div>
+        <!-- pompa w -->
+        <div @click="hidroponik.pompa[idx] = !hidroponik.pompa[idx]" v-for="i,idx in hidroponik.pompa" class="border p-2 m-2 w-36 sm:w-48 text-center bg-lime-600 text-white hover:opacity-60 cursor-pointer">
+          <span class="underline">pompa {{idx + 1}}</span><br>
+          {{(i)?'aktif':'non aktif'}}
+        </div>
+        <!-- mode w -->
+        <div @click="hidroponik.mode = !hidroponik.mode" class="border p-2 m-2 w-36 sm:w-48 text-center bg-lime-600 text-white hover:opacity-60 cursor-pointer">
+          <span class="underline">mode</span><br>
+          {{(hidroponik.mode)?'aktif':'non aktif'}}
+        </div>
+        <!-- ppm w -->
+        <div class="border p-2 m-2 w-36 sm:w-48 text-center bg-lime-600 text-white cursor-pointer">
+          
+            <span class="underline">ppm (0-1500)</span><br>
+            <input type="number" v-model="hidroponik.ppm"  class="bg-lime-600 text-center outline-none border w-24" min="0" max="1500">
+          
+        </div>
+      </div>
     </div>
     
     <!-- blog -->
-
     <div class="m-2">
       <div class="border w-full p-3" :class="{hidden: !nav[1].active}">
-        <!-- title -->
+        <!-- blog editor -->
+        <div >
+          <!-- title -->
         <span class="text-sm text-gray-400 mx-1">title:</span>
         <input type="text" placeholder="title" class="border px-2 outline-none py-1 w-full mb-2" >
         
         <!-- content -->
         <span class="text-sm text-gray-400 mx-1">content:</span>
+        <!-- <textarea></textarea> -->
         <textarea></textarea>
-        <!-- <textarea ref="content" class="border w-full outline-none p-2"></textarea> -->
+
   
         <!-- submit -->
         <input @click="submitContent" type="submit" class="bg-green-400 text-white w-full p-1 my-2 hover:underline" value="submit">
+        </div>
+
       </div>
     </div>
+
+    <!-- shop -->
+
+    <!-- statics -->
     
+    <!-- logout -->
     <div class="mx-2 my-2">
       <button @click="logout" class="bg-red-700 text-white w-full p-1 hover:underline">log out</button>
     </div>
