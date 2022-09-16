@@ -8,7 +8,7 @@ export default{
 </script>
 
 <template>
-  <Modal>
+  <Modal class="fixed top-0 w-full">
     <img src="../assets/loading.svg" alt="" class="w-20">
   </Modal>
 </template>

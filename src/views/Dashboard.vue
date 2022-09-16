@@ -19,8 +19,7 @@ export default{
         {page: 'Dashboard', active:true},
         {page: 'Blog', active:false},
         {page: 'Shop', active:false},
-        {page: 'Komentar', active:false},
-        {page: 'Hidroponik', active:false}
+        {page: 'Komentar', active:false}
       ]
     }
   },
@@ -89,21 +88,34 @@ export default{
     },
     async submitContent(){
       var content = document.querySelector('.fr-element.fr-view')
+      this.loading = true
+      const oldimg = []
       try{
-        var img = content.querySelector('img').src
-        var s = img.split('/')
-        s = s[s.length-1]
-        var up = await fetch(img).then(r=>r.blob())
+        var img = content.querySelectorAll('img')
+        img.forEach(e=>{
+          e = e.src
+          var s = e.split('/')
+          s = `${import.meta.env.VITE_SUPABASE_URL}/storage/v1/object/public/public/${s[s.length-1]}.jpg`
+          oldimg.push({old:e, new:s})
+        })
+      //   var up = await fetch(img).then(r=>r.blob())
 
-        const {error} = await supabase.storage.from('public').upload(`${s}.jpg`, up)
-        
-        if(!error) console.log('success')
-        else console.log(error)
+      //   const {error} = await supabase.storage.from('public').upload(`${s}.jpg`, up)
+
+      //   if(!error) console.log('success')
+      //   else console.log(error)
 
       }catch(e){}
+      var submitcontent = content.innerHTML
 
-      //console.log(content.innerHTML)
-      // console.log(this.$refs.content.innerHTML)
+      oldimg.forEach(e=>{
+        submitcontent = submitcontent.replace(e.old, e.new)
+      })
+
+      console.log('test', submitcontent)
+      
+
+      this.loading = false
     }
   }
 }
