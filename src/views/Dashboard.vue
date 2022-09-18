@@ -16,10 +16,10 @@ export default{
       login: false,
       loading:false,
       nav:[
-        {page: 'Dashboard', active:true},
+        {page: 'Home', active:true},
         {page: 'Blog', active:false},
         {page: 'Shop', active:false},
-        {page: 'Statistics', active:false}
+        {page: 'Stats', active:false}
       ],
       hidroponik:{
         ultrasonik: [0.1, 0.1, 0.1], //read
@@ -27,7 +27,13 @@ export default{
         pompa: [false, true, true, true], //write
         mode: true, //write
         ppm: 0, //write 0-1500
+        ppmvalid: true
       },
+      stats:{
+        blog: true,
+        comment: false,
+        shop: false
+      }
     }
   },
   methods:{
@@ -67,7 +73,7 @@ export default{
         const labels = [], datasets = []
         if(error)return
         data.forEach(e=>{
-          labels.push(e.visited_id)
+          labels.push(e.time)
           datasets.push(e.counts)
         })
 
@@ -86,8 +92,10 @@ export default{
       this.nav.forEach(e=>e.active = false)
       this.nav[e].active = true
 
-      if(this.nav[1].active)new FroalaEditor('textarea');
-      
+      if(this.nav[1].active){
+        new FroalaEditor('textarea');
+
+      }
     },
     logout(){
       localStorage.clear()
@@ -124,6 +132,18 @@ export default{
 
       this.loading = false
     },
+    async refresh(){
+      this.hidroponik.ppmvalid = true
+      if(this.hidroponik.ppm < 0 || this.hidroponik.ppm > 1500)return this.hidroponik.ppmvalid = false
+      
+      this.loading = true
+      await this.genCharts()
+      this.loading = false
+    },
+    statsmove(e){
+      Object.entries(this.stats).forEach(e=> this.stats[e[0]] = false)
+      this.stats[e] = true
+    }
   }
 }
 
@@ -148,13 +168,22 @@ export default{
     <!-- dashboard -->
     <div :class="{hidden: !nav[0].active}" class="p-3">
       <!-- chart --> 
-      <div id="chart" class="p-5 py-9 border shadow-md overflow-hidden"></div>
+      <div id="chart" class="p-5 py-9 rounded-md shadow-md overflow-hidden"></div>
 
       <!-- hidroponik -->
-      <h1 class="mt-2 mx-2">Hidroponik</h1>
+      <div class="flex items-center">
+        <h1 class="mt-2 mx-2">Hidroponik</h1> 
+        <!-- refresh button -->
+        <button @click="refresh" class="mt-2 mx-2 border px-3 hover:underline ">refresh</button>
+        
+      </div>
+      <div class="text-center text-red-600 text-xs" v-if="!hidroponik.ppmvalid">
+        ppm must be in range 0-1500
+      </div>
+
       <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-6 select-none">
         <!-- ultrasonik -->
-        <div v-for="i,idx in hidroponik.ultrasonik" class="border p-2 m-2 w-36 sm:w-48 text-center bg-blue-500 text-white cursor-default">
+        <div v-for="i,idx in hidroponik.ultrasonik" class="rounded-md p-2 m-2 w-36 sm:w-48 text-center bg-blue-500 text-white cursor-default">
           <span class="underline">ultrasonik {{idx + 1}}</span><br>
           {{i}}
         </div>
@@ -164,28 +193,37 @@ export default{
           {{hidroponik.tds}}
         </div>
         <!-- pompa w -->
-        <div @click="hidroponik.pompa[idx] = !hidroponik.pompa[idx]" v-for="i,idx in hidroponik.pompa" class="border p-2 m-2 w-36 sm:w-48 text-center bg-lime-600 text-white hover:opacity-60 cursor-pointer">
+        <div @click="hidroponik.pompa[idx] = !hidroponik.pompa[idx]" v-for="i,idx in hidroponik.pompa" class="rounded-md p-2 m-2 w-36 sm:w-48 text-center bg-lime-600 text-white hover:opacity-60 cursor-pointer">
           <span class="underline">pompa {{idx + 1}}</span><br>
           {{(i)?'aktif':'non aktif'}}
         </div>
         <!-- mode w -->
-        <div @click="hidroponik.mode = !hidroponik.mode" class="border p-2 m-2 w-36 sm:w-48 text-center bg-lime-600 text-white hover:opacity-60 cursor-pointer">
+        <div @click="hidroponik.mode = !hidroponik.mode" class="rounded-md p-2 m-2 w-36 sm:w-48 text-center bg-lime-600 text-white hover:opacity-60 cursor-pointer">
           <span class="underline">mode</span><br>
           {{(hidroponik.mode)?'aktif':'non aktif'}}
         </div>
         <!-- ppm w -->
-        <div class="border p-2 m-2 w-36 sm:w-48 text-center bg-lime-600 text-white cursor-pointer">
-          
-            <span class="underline">ppm (0-1500)</span><br>
-            <input type="number" v-model="hidroponik.ppm"  class="bg-lime-600 text-center outline-none border w-24" min="0" max="1500">
-          
+        <div class="rounded-md p-2 m-2 w-36 sm:w-48 text-center bg-lime-600 text-white cursor-pointer">
+          <span class="underline">ppm (0-1500)</span><br>
+          <input type="number" v-model="hidroponik.ppm"  class="bg-lime-600 text-center outline-none border w-24" min="0" max="1500">
         </div>
+
+      </div>
+
+      <!-- domain button -->
+      <div class="flex text-center mt-5 border-t">
+        <a href="https://www.niagahoster.co.id/" class="mt-2 border text-gray-500 w-full mx-2 p-1 hover:underline">domain</a>
+      </div>
+
+      <!-- logout -->
+      <div class="mx-2 my-2">
+        <button @click="logout" class="bg-red-700 text-white w-full p-1 hover:underline">log out</button>
       </div>
     </div>
     
     <!-- blog -->
     <div class="m-2">
-      <div class="border w-full p-3" :class="{hidden: !nav[1].active}">
+      <div class="rounded-md shadow-md w-full p-3" :class="{hidden: !nav[1].active}">
         <!-- blog editor -->
         <div >
           <!-- title -->
@@ -194,10 +232,10 @@ export default{
         
         <!-- content -->
         <span class="text-sm text-gray-400 mx-1">content:</span>
-        <!-- <textarea></textarea> -->
-        <textarea></textarea>
-
-  
+        <div ref="blogcontent">
+          <textarea></textarea>
+        </div>
+        
         <!-- submit -->
         <input @click="submitContent" type="submit" class="bg-green-400 text-white w-full p-1 my-2 hover:underline" value="submit">
         </div>
@@ -206,13 +244,94 @@ export default{
     </div>
 
     <!-- shop -->
-
-    <!-- statics -->
-    
-    <!-- logout -->
-    <div class="mx-2 my-2">
-      <button @click="logout" class="bg-red-700 text-white w-full p-1 hover:underline">log out</button>
+    <div v-if="nav[2].active" class="p-3">
+      <form @submit.prevent="" class="p-3 shadow-md rounded-md">
+        <!-- title -->
+        <span class="text-sm">title</span><br>
+        <input type="text" class="border w-full outline-none px-2 p-1">
+        <!-- price -->
+        <span class="text-sm">price</span><br>
+        <input type="text" class="border w-full outline-none px-2 p-1">
+        <!-- image -->
+        <span class="text-sm">link image</span><br>
+        <input type="text" class="border w-full outline-none px-2 p-1">
+        <!-- link -->
+        <span class="text-sm">link online shop</span><br>
+        <input type="text" class="border w-full outline-none px-2 p-1">
+        <!-- submit -->
+        <input type="submit" value="submit" class="w-full outline-none bg-green-400 text-white p-1 my-2 hover:underline">
+      </form>
     </div>
+
+    <!-- stats -->
+    <div v-if="nav[3].active" class="px-3 py-1">
+      <div class="flex">
+        <!-- blog -->
+        <button @click="statsmove('blog')" :class="{underline: stats.blog}" class="w-full bg-green-400 text-white p-1 hover:underline">blog</button>
+        <!-- comment -->
+        <button @click="statsmove('comment')" :class="{underline: stats.comment}" class="w-full bg-blue-400 text-white p-1 hover:underline">comment</button>
+        <!-- shop -->
+        <button @click="statsmove('shop')" :class="{underline: stats.shop}" class="w-full bg-amber-400 text-white p-1 hover:underline">shop</button>
+      </div>
+
+      <div class="overflow-x-scroll my-4 py-1">
+        <!-- blog -->
+        <table class="w-full" v-if="stats.blog">
+            <tr>
+              <th class="sm:w-10">id</th>              
+              <th>title</th>
+              <th>release</th>
+              <th>views</th>
+            </tr>
+            <tbody v-for="i in 10">
+              <tr class="text-sm hover:bg-slate-200">
+                <td class="text-center">{{i}}</td>
+                <td>1201202040</td>
+                <td>{{i}}</td>
+                <td>{{i}}</td>
+              </tr>
+            </tbody>
+        </table>
+        <!-- comment -->
+        <table class="w-full" v-if="stats.comment">
+            <tr>
+              <th class="sm:w-10">id</th>              
+              <th>message</th>
+              <th>created_at</th>
+              <th>blog</th>
+            </tr>
+            <tbody v-for="i in 10">
+              <tr class="text-sm hover:bg-slate-200">
+                <td class="text-center">{{i}}</td>
+                <td>1201202040</td>
+                <td>{{i}}</td>
+                <td>{{i}}</td>
+              </tr>
+            </tbody>
+        </table>
+        <!-- shop -->
+        <table class="w-full" v-if="stats.shop">
+            <tr>
+              <th class="sm:w-10">id</th>              
+              <th>product</th>
+              <th>price</th>
+              <th>link shop</th>
+              <th>link image</th>
+            </tr>
+            <tbody v-for="i in 10">
+              <tr class="text-sm hover:bg-slate-200">
+                <td class="text-center">{{i}}</td>
+                <td>1201202040</td>
+                <td>{{i}}</td>
+                <td>{{i}}</td>
+                <td>{{i}}</td>
+              </tr>
+            </tbody>
+        </table>
+      </div>
+
+    </div>
+    
     <!-- footer -->
     <Footer></Footer>
   </div>

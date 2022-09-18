@@ -12,4 +12,7 @@
   th,td{
     @apply border;
   }
+  td{
+    @apply px-2;
+  }
 }
