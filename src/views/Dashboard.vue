@@ -33,6 +33,17 @@ export default{
         blog: true,
         comment: false,
         shop: false
+      },
+      blog:{
+        title:'',
+        postfail:''
+      },
+      shop:{
+        title:"",
+        price:"",
+        link:"",
+        img:"",
+        fail:"",
       }
     }
   },
@@ -92,44 +103,21 @@ export default{
       this.nav.forEach(e=>e.active = false)
       this.nav[e].active = true
 
-      if(this.nav[1].active){
-        new FroalaEditor('textarea');
-
-      }
+      if(this.nav[1].active)new FroalaEditor('textarea');
+      
     },
     logout(){
       localStorage.clear()
       window.location.reload()
     },
     async submitContent(){
-      var content = document.querySelector('.fr-element.fr-view')
+      if(this.blog.title == '') return this.blog.postfail = "title can't empty"
+      if(document.querySelector('.fr-element.fr-view').innerHTML == "<p><br></p>") return this.blog.postfail = "content can't empty"
+
       this.loading = true
-      const oldimg = []
-      try{
-        var img = content.querySelectorAll('img')
-        img.forEach(e=>{
-          e = e.src
-          var s = e.split('/')
-          s = `${import.meta.env.VITE_SUPABASE_URL}/storage/v1/object/public/public/${s[s.length-1]}.jpg`
-          oldimg.push({old:e, new:s})
-        })
-      //   var up = await fetch(img).then(r=>r.blob())
-
-      //   const {error} = await supabase.storage.from('public').upload(`${s}.jpg`, up)
-
-      //   if(!error) console.log('success')
-      //   else console.log(error)
-
-      }catch(e){}
-      var submitcontent = content.innerHTML
-
-      oldimg.forEach(e=>{
-        submitcontent = submitcontent.replace(e.old, e.new)
-      })
-
-      console.log('test', submitcontent)
+      const status = await utils.insertblog(this.blog.title)
+      (status != '')?this.blog.postfail = true : this.move(3)
       
-
       this.loading = false
     },
     async refresh(){
@@ -143,10 +131,44 @@ export default{
     statsmove(e){
       Object.entries(this.stats).forEach(e=> this.stats[e[0]] = false)
       this.stats[e] = true
+    },
+    async uploadshop(){
+      let status = ""
+      if(this.shop.title.trim() == '') status = "title, "
+      if(this.shop.price.trim() == '') status += "price, "
+      if(this.shop.link.trim() == '' )status += "link, "
+      if(this.$refs.imgshop.src == window.location) status += "image"
+      if(status != '') return this.shop.fail = `${status} can't be empty`
+
+      
+      this.loading = true
+      let {error} = await supabase.storage.from('public').upload(`${this.shop.img.name}`, this.shop.img)
+      if(error && !(this.loading = false)) return this.shop.fail = 'upload image error,'
+      
+      console.log('test upload data')
+      this.loading = true
+      const result = await this.uploadDataShop()
+      this.loading = false
+      if(result != '') return this.shop.fail = 'upload data fail'
+      this.move(3)
+    },
+    async uploadDataShop(){
+      const datas = {
+        name: this.shop.title,
+        price: this.shop.price,
+        img_url:`${import.meta.env.VITE_SUPABASE_URL}/storage/v1/object/public/public/${this.shop.img.name}}`,
+        url: this.shop.link
+      }
+      
+      const {error} = await supabase.from('shop').insert(datas)
+      return (error)? error: ''
+    },
+    uploadimgshop(e){
+      this.shop.img = e.target.files[0]
+      this.$refs.imgshop.src = URL.createObjectURL(this.shop.img)
     }
   }
 }
-
 </script>
 
 <template>
@@ -223,12 +245,15 @@ export default{
     
     <!-- blog -->
     <div class="m-2">
-      <div class="rounded-md shadow-md w-full p-3" :class="{hidden: !nav[1].active}">
+      
+      <form @submit.prevent="submitContent" class="rounded-md shadow-md w-full p-3" :class="{hidden: !nav[1].active}">
+        <div v-if="blog.postfail" class="italic text-center text-xs text-red-700">{{blog.postfail}}</div>
+        
         <!-- blog editor -->
         <div >
-          <!-- title -->
+        <!-- title -->
         <span class="text-sm text-gray-400 mx-1">title:</span>
-        <input type="text" placeholder="title" class="border px-2 outline-none py-1 w-full mb-2" >
+        <input v-model="blog.title" type="text" placeholder="title" class="border px-2 outline-none py-1 w-full mb-2" >
         
         <!-- content -->
         <span class="text-sm text-gray-400 mx-1">content:</span>
@@ -237,27 +262,31 @@ export default{
         </div>
         
         <!-- submit -->
-        <input @click="submitContent" type="submit" class="bg-green-400 text-white w-full p-1 my-2 hover:underline" value="submit">
+        <input type="submit" class="bg-green-400 text-white w-full p-1 my-2 hover:underline" value="submit">
         </div>
 
-      </div>
+      </form>
     </div>
 
     <!-- shop -->
     <div v-if="nav[2].active" class="p-3">
-      <form @submit.prevent="" class="p-3 shadow-md rounded-md">
+      <div v-if="shop.fail" class="text-center text-xs italic">{{shop.fail}}</div>
+      <img src="" alt="" ref="imgshop" id="imgshop">
+      <form @submit.prevent="uploadshop" class="p-3 shadow-md rounded-md">
         <!-- title -->
         <span class="text-sm">title</span><br>
-        <input type="text" class="border w-full outline-none px-2 p-1">
+        <input v-model="shop.title" type="text" class="border w-full outline-none px-2 p-1">
         <!-- price -->
         <span class="text-sm">price</span><br>
-        <input type="text" class="border w-full outline-none px-2 p-1">
+        <input v-model="shop.price" type="text" class="border w-full outline-none px-2 p-1">
         <!-- image -->
-        <span class="text-sm">link image</span><br>
-        <input type="text" class="border w-full outline-none px-2 p-1">
+        <div class="overflow-hidden">
+          <span class="text-sm">upload image</span><br>
+          <input @change="uploadimgshop" ref="imgfileshop" type="file" accept="image/*" class="border w-full outline-none px-2 p-1">
+        </div>
         <!-- link -->
         <span class="text-sm">link online shop</span><br>
-        <input type="text" class="border w-full outline-none px-2 p-1">
+        <input v-model="shop.link" type="text" class="border w-full outline-none px-2 p-1">
         <!-- submit -->
         <input type="submit" value="submit" class="w-full outline-none bg-green-400 text-white p-1 my-2 hover:underline">
       </form>
@@ -296,6 +325,7 @@ export default{
         <table class="w-full" v-if="stats.comment">
             <tr>
               <th class="sm:w-10">id</th>              
+              <th>name</th>
               <th>message</th>
               <th>created_at</th>
               <th>blog</th>
@@ -303,6 +333,7 @@ export default{
             <tbody v-for="i in 10">
               <tr class="text-sm hover:bg-slate-200">
                 <td class="text-center">{{i}}</td>
+                <td>who</td>
                 <td>1201202040</td>
                 <td>{{i}}</td>
                 <td>{{i}}</td>
@@ -316,7 +347,7 @@ export default{
               <th>product</th>
               <th>price</th>
               <th>link shop</th>
-              <th>link image</th>
+              <th>image</th>
             </tr>
             <tbody v-for="i in 10">
               <tr class="text-sm hover:bg-slate-200">

@@ -26,11 +26,11 @@ const login = async function(name:string, pass:string){
   
   if (error) return console.log(error)
 
-  if(data[0] != undefined) return (this.comparePass(data[0].pass, pass)) ? "":"wrong password"
+  if(data[0] != undefined) return (comparePass(data[0].pass, pass)) ? "":"wrong password"
   return "wrong username"
 }
 
-const encryptPass = function(pass:string): boolean{
+const encryptPass = function(pass:string): string{
   return bcrypt.hashSync(pass, bcrypt.genSaltSync(10))
 }
 
@@ -38,4 +38,42 @@ const comparePass = function(pass:string, hash:string): boolean{
   return bcrypt.compareSync(pass, hash)
 }
 
-export default{visited, login, encryptPass, comparePass}
+const insertblog = async function(title:string){
+  try{
+    var content = document.querySelector('.fr-element.fr-view')
+    var submitcontent = content!!.innerHTML
+    
+    var img = content!!.querySelectorAll('img')
+    for(var i=0; i < img.length; i++){
+      var s = img[i].src.split('/').pop()
+
+      // upload image
+      var up = await fetch(img[i].src).then(r=>r.blob())
+      const {error} = await supabase.storage.from('public').upload(`${s}.jpg`, up)
+      if(error) throw "fail to upload image"
+
+      // change blob to img in innerhtml      
+      s = `${import.meta.env.VITE_SUPABASE_URL}/storage/v1/object/public/public/${s}.jpg`
+      submitcontent = submitcontent.replace(img[i].src, s)
+    }
+    
+    const datas = {
+      title: title,
+      link: title.replaceAll(' ','-'),
+      data: submitcontent,
+      release: new Date().toDateString(),
+      views: 0
+    }
+
+    const {error} = await supabase.from('blog').insert(datas)
+    if(error) throw 'fail to upload content'
+
+    return ''
+  }catch(e){
+    return e
+  }
+    
+
+}
+
+export default{visited, login, encryptPass, comparePass, insertblog}

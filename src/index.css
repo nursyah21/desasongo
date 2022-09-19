@@ -16,3 +16,9 @@
     @apply px-2;
   }
 }
+
+/* @layer components{
+  .blogimg{
+    @apply 
+  }
+} */

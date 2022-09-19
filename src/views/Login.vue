@@ -25,7 +25,7 @@ export default{
       const pass = localStorage.getItem('pass')
       
 
-      if(this.form.autologin && name && pass){
+      if(name && pass){
         this.loading = true
         
         const data = await utils.login(name, pass)
