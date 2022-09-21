@@ -133,7 +133,7 @@ export default{
         new FroalaEditor('textarea');
         this.blog.list = []
         const blog = await supabase.from('blog').select('blog_id, title, views, release, link').order('blog_id', {ascending:false}).then(e=>e.data)
-        blog.forEach(e=>this.blog.list.push(e))
+        if(blog != null)blog.forEach(e=>this.blog.list.push(e))
       }
       if(this.nav[2].active){ //shop
         this.shop.list = []
