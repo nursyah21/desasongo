@@ -40,7 +40,8 @@ export default{
       blog:{
         title:'',
         postfail:'',
-        deleteblog:'as',
+        deleteblog:'',
+        urlblog:'',
         deleteModal:false,
         list: [],
         listIdx: 0,
@@ -226,21 +227,25 @@ export default{
       if(this.hidroponik.mode)return
       this.hidroponik.pompa[idx] = ! this.hidroponik.pompa[idx]
     },
-    async removeBlog(idx){
+    async removeBlog(idx,url){
       if(idx==null){
         this.blog.deleteModal = false
         
         this.loading = true
         this.loadingStatus = `delete ${this.blog.deleteblog}`
 
-        const {error} = await supabase.from('blog').delete().match({title:this.blog.deleteblog})
-        if(error) console.log(error)
+        try{
+          await supabase.from('blog').delete().match({title:this.blog.deleteblog})
+          await supabase.from('comment').delete().match({'url_blog': this.blog.urlblog})
+        }catch(e){}
+        
         this.loadingStatus = ''
         this.loading = false
 
         this.move(1)
       }else{
         this.blog.deleteblog = idx
+        this.blog.urlblog = url
         this.blog.deleteModal = true
       }
     },
@@ -403,7 +408,7 @@ export default{
               <td><a v-bind:href="'/blog/'+i.link">{{i.title}}</a></td>
               <td>{{i.release}}</td>
               <td>{{i.views}}</td>
-              <td class="p-1 bg-red-600 text-white sm:hover:underline cursor-pointer" @click="removeBlog(i.title)">delete</td>
+              <td class="p-1 bg-red-600 text-white sm:hover:underline cursor-pointer" @click="removeBlog(i.title, i.link)">delete</td>
             </tr>
           </tbody>
         </table>
@@ -419,7 +424,7 @@ export default{
         <div class="text-center text-gray-500 text-sm">
           confirm delete <br>{{blog.deleteblog}}
           <div class="text-white mt-4">
-            <button class="mr-5 sm:hover:underline px-6 py-1 bg-red-600" @click="removeBlog(null)">yes</button>
+            <button class="mr-5 sm:hover:underline px-6 py-1 bg-red-600" @click="removeBlog(null,'')">yes</button>
             <button class="ml-5 sm:hover:underline px-6 py-1 bg-sky-600" @click="blog.deleteModal = !blog.deleteModal">no</button>
           </div>
         </div>

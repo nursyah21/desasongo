@@ -83,7 +83,7 @@ export default{
             <p>{{i.title}}</p>
             <p>{{i.price}}</p>
             <div class="h-2"></div>
-            <a class="bg-green-400 px-6 rounded-lg py-1 text-white" :href="i.link">Beli</a>
+            <a class="bg-green-400 px-6 rounded-lg py-1 text-white cursor-pointer" :href="i.url">Beli</a>
           </div>
         </div>
 
