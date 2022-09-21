@@ -38,7 +38,8 @@ const getDataIndex = async function(){
 
   let blog_data = await supabase.from('blog').select('blog_id, release, title, link, preview_data').order('blog_id', {ascending: false}).then(e=>e.data)
   let shop_data = await supabase.from('shop').select('shop_id, name, url, price, img_url').order('shop_id', {ascending: false}).then(e=>e.data)
-  console.log(blog_data, shop_data, blog_data?.length, shop_data?.length)
+  blog_data?.forEach(e=>blog.push(e))
+  shop_data?.forEach(e=>shop.push(e))
 
   return {blog, shop}
 }
@@ -89,7 +90,7 @@ const insertblog = async function(title:string){
       title: title,
       link: title.replaceAll(' ','-').toLowerCase(),
       data: submitcontent,
-      preview_data: content!!.innerText.replaceAll('\n\n',' ').replace('\n','').slice(0,235)+'...',
+      preview_data: content!!.innerText.replaceAll('\n\n',' ').replace('\n','').slice(0,150)+'...',
       release: new Date().toDateString(),
       views: 0
     }

@@ -22,7 +22,10 @@ export default{
         {page:'shop', active:false}
       ],
       blog:[],
-      shop:[]
+      shop:[],
+      blogIdx:0,
+      shopIdx:0,
+      lengthIdx:1
     }
   },
   methods:{
@@ -32,7 +35,6 @@ export default{
       this.loading = false
       this.blog = blog
       this.shop = shop
-      console.log(shop.length)
     },
     move(e){
       this.navbar.forEach(e=>e.active = false)
@@ -60,16 +62,22 @@ export default{
       
       <!-- Blog -->
       <div class="my-2 mt-10  border-b" :class="{hidden: !navbar[1]['active']}" >  
-          <div class="border p-3 rounded-md my-2" v-for="i in blog">
+          <div class="border p-3 rounded-md my-2" v-for="i in blog.slice(blogIdx, blogIdx+lengthIdx+1)">
             <p class="mb-1 sm:text-xl">{{i.title}}</p>
-            <p class="text-sm sm:text-base mb-1">{{i.data}} <a :href="i.link" class="text-blue-500">readmore</a></p>          
+            <p class="text-xs sm:text-sm mb-1">{{i.preview_data}} <a :href="'/blog/'+i.link" class="text-blue-500">readmore</a></p>          
             <p class="text-xs">{{i.release}}</p>
           </div>
+
+        <!-- pagination -->
+        <div class="text-center">
+          <button  class="border px-2 mx-2 mb-2 hover:underline" :class="{underline: (blogIdx == i-1 )}" @click="blogIdx = i - 1" v-for="i in Number((blog.length / lengthIdx).toFixed())">{{i}}</button>
+        </div>
+
       </div>
 
       <!-- Shop -->
       <div class="my-2 border-b mt-10" :class="{hidden: !navbar[2]['active']}" >
-        <div class="p-3 border shadow rounded-lg flex my-2" v-for="i in shop">
+        <div class="p-3 border shadow rounded-lg flex my-2" v-for="i in shop.slice(shopIdx, shopIdx+lengthIdx+1)">
           <img :src="i.img_url" alt="" class="w-24 sm:w-28">
           <div class="text-sm sm:text-base ml-4">
             <p>{{i.title}}</p>
@@ -78,6 +86,12 @@ export default{
             <a class="bg-green-400 px-6 rounded-lg py-1 text-white" :href="i.link">Beli</a>
           </div>
         </div>
+
+        <!-- pagination -->
+        <div class="text-center">
+          <button  class="border px-2 mx-2 mb-2 hover:underline" :class="{underline: (shopIdx == i-1 )}" @click="shopIdx = i - 1" v-for="i in Number((shop.length / lengthIdx).toFixed())">{{i}}</button>
+        </div>
+
       </div>
 
     </div>

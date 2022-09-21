@@ -103,7 +103,7 @@ export default{
       })
 
       try{
-        const {data,error} = await supabase.from('visited').select().limit(30)
+        const {data,error} = await supabase.from('visited').select().order('visited_id',{ascending:true}).limit(30)
         const labels = [], datasets = []
         if(error)return
         data.forEach(e=>{
