@@ -13,6 +13,7 @@ export default{
     return{
       notfound: false,
       loading: false,
+      loadingStatus: '',
       commentator: [],
       title: '',
       time:'',
@@ -20,7 +21,7 @@ export default{
         name:'',
         content:'',
         fail:'',
-        blogid:''
+        url_blog:''
       }
     }
   },
@@ -30,11 +31,12 @@ export default{
   methods: {
     async getComment(blog_id){
       this.loading = true
-      const {data} = await supabase.from('comment').select().match({blog_id: blog_id})
+      const {data} = await supabase.from('comment').select().match({url_blog: this.comment.url_blog})
+      console.log(data)
+      if(data == null) return this.loading = false
       if(data.length == 0 && !(this.loading = false))return
 
       data.forEach(e=>{
-        
         this.commentator.push({name:e.name, comment:e.comment, created_at: e.created_at})
       })
 
@@ -43,23 +45,25 @@ export default{
     async getContent(){
       var id = this.$route.params.id;
       this.loading = true
+      this.loadingStatus = 'load data'
 
       // check available link
       const {data} = await supabase.from('blog').select().match({link:id})
+      this.loadingStatus = ''
       this.loading = false
+
+      if(data == null) return this.notfound = true
       if(data.length == 0)return this.notfound = true
 
+
       // generate data
-      this.comment.blogid = data[0].blog_id
+      this.comment.url_blog = data[0].link
       this.title = data[0].title
       this.time = data[0].release
       this.$refs.content.innerHTML = data[0].data
-      
+
       // generate comment
-      
-      await this.getComment(data[0].blog_id)
-      
-      
+      await this.getComment(data[0].link)
 
       // update
       await utils.visited()
@@ -74,12 +78,11 @@ export default{
       if(this.comment.content.trim() == '')status += "message"
       if(status != '') return this.comment.fail = `${status} can't be empty`
       
-      
       const datas = {
         name: this.comment.name,
         comment: this.comment.content,
         created_at: new Date().toDateString(),
-        blog_id: this.comment.blogid 
+        url_blog: this.comment.url_blog 
       }
       
       this.loading = true
@@ -92,7 +95,7 @@ export default{
 </script>
 
 <template>
-  <Loading v-if="loading"></Loading>
+  <Loading v-if="loading">{{loadingStatus}}</Loading>
   <div class="text-gray-500">
     <!-- navbar -->
     <div class="bg-white border-b-2 pb-1 px-2 sm:px-8 pt-1 fixed top-0 w-screen left-0 bg-opacity-80 items-center">

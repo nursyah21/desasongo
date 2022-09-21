@@ -21,6 +21,28 @@ const visited = async function(){
   }
 }
 
+const getDataIndex = async function(){
+  /** blog
+   * {title:'mengenal desa songo',
+  data:'Kampung ini dulunya agak kumuh dan kurang hijau, hingga tahun 2013 Bu Yaning terpilih sebagai ketua KT. Mengapa Bu Yaning mau menjadi RT karena Bu Yaning mempunyai misi yaitu bagaimana cara mengubah kampung ini menjadi bersih dan hijau...',
+  link:'/blog/tentang-desa-songo',
+  release:'20 december 2022'}
+   */
+  /** shop
+   * {title:'sayur box', img_url:'/src/assets/sayur.webp', 
+  link:'https://www.tokopedia.com/sayursegardepok/bayam-hijau-sayur-1-ikat-fresh?extParam=ivf%3Dfalse&src=topads',
+  price:'Rp. 10,000'}
+   */
+  const blog:Array<any> = []
+  const shop:Array<any> = []
+
+  let blog_data = await supabase.from('blog').select('blog_id, release, title, link, preview_data').order('blog_id', {ascending: false}).then(e=>e.data)
+  let shop_data = await supabase.from('shop').select('shop_id, name, url, price, img_url').order('shop_id', {ascending: false}).then(e=>e.data)
+  console.log(blog_data, shop_data, blog_data?.length, shop_data?.length)
+
+  return {blog, shop}
+}
+
 const login = async function(name:string, pass:string){
   const {data, error} = await supabase.from('users').select().match({name:name});
   
@@ -40,27 +62,34 @@ const comparePass = function(pass:string, hash:string): boolean{
 
 const insertblog = async function(title:string){
   try{
-    var content = document.querySelector('.fr-element.fr-view')
+    var content = document.querySelector('.fr-element.fr-view') as HTMLElement | null
     var submitcontent = content!!.innerHTML
-    
+
     var img = content!!.querySelectorAll('img')
     for(var i=0; i < img.length; i++){
       var s = img[i].src.split('/').pop()
 
       // upload image
       var up = await fetch(img[i].src).then(r=>r.blob())
-      const {error} = await supabase.storage.from('public').upload(`${s}.jpg`, up)
-      if(error) throw "fail to upload image"
+      try{
+        await supabase.storage.from('public').upload(`${s}.jpg`, up)
+      }catch(e){}
+      
 
       // change blob to img in innerhtml      
       s = `${import.meta.env.VITE_SUPABASE_URL}/storage/v1/object/public/public/${s}.jpg`
       submitcontent = submitcontent.replace(img[i].src, s)
     }
     
+    const titleCheck = await supabase.from('blog').select().match({title:title}).then(e=>e.data)
+
+    if(titleCheck?.length != 0)return 'title already'
+
     const datas = {
       title: title,
-      link: title.replaceAll(' ','-'),
+      link: title.replaceAll(' ','-').toLowerCase(),
       data: submitcontent,
+      preview_data: content!!.innerText.replaceAll('\n\n',' ').replace('\n','').slice(0,235)+'...',
       release: new Date().toDateString(),
       views: 0
     }
@@ -76,4 +105,4 @@ const insertblog = async function(title:string){
 
 }
 
-export default{visited, login, encryptPass, comparePass, insertblog}
+export default{visited, login, encryptPass, comparePass, insertblog, getDataIndex}

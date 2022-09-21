@@ -15,10 +15,7 @@
   td{
     @apply px-2;
   }
-}
-
-/* @layer components{
-  .blogimg{
-    @apply 
+  iframe{
+    @apply w-full ;
   }
-} */
+}
