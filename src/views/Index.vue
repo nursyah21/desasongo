@@ -25,7 +25,7 @@ export default{
       shop:[],
       blogIdx:0,
       shopIdx:0,
-      lengthIdx:1
+      lengthIdx:1,
     }
   },
   methods:{
@@ -80,7 +80,7 @@ export default{
         <div class="p-3 border shadow rounded-lg flex my-2" v-for="i in shop.slice(shopIdx, shopIdx+lengthIdx+1)">
           <img :src="i.img_url" alt="" class="w-24 sm:w-28">
           <div class="text-sm sm:text-base ml-4">
-            <p>{{i.title}}</p>
+            <p>{{i.name}}</p>
             <p>{{i.price}}</p>
             <div class="h-2"></div>
             <a class="bg-green-400 px-6 rounded-lg py-1 text-white cursor-pointer" :href="i.url">Beli</a>

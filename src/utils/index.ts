@@ -83,8 +83,8 @@ const insertblog = async function(title:string){
     }
     
     const titleCheck = await supabase.from('blog').select().match({title:title}).then(e=>e.data)
-
-    if(titleCheck?.length != 0)return 'title already'
+    
+    if(titleCheck?.length != 0)return 'title already exists'
 
     const datas = {
       title: title,

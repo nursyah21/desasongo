@@ -12,12 +12,14 @@ export default{
 },
   mounted(){
     this.autologin()
+    this.refreshHidroponik()
   },
   data(){
     return{
       login: false,
       loading:false,
       loadingStatus:'',
+      refreshStatus:'refresh',
       nav:[
         {page: 'Home', active:true},
         {page: 'Blog', active:false},
@@ -175,7 +177,9 @@ export default{
       if(this.hidroponik.ppm < 0 || this.hidroponik.ppm > 1500)return this.hidroponik.ppmvalid = false
       
       this.loading = true
+      await this.refreshHidroponik()
       await this.genCharts()
+      this.refreshStatus = 'refresh'
       this.loading = false
     },
     async uploadshop(){
@@ -226,6 +230,7 @@ export default{
     pompaActivated(idx){
       if(this.hidroponik.mode)return
       this.hidroponik.pompa[idx] = ! this.hidroponik.pompa[idx]
+      this.refreshStatus = 'async'
     },
     async removeBlog(idx,url){
       if(idx==null){
@@ -286,6 +291,39 @@ export default{
         this.comment.deleteModal = true
       }
     },
+    async refreshHidroponik(){
+      if(this.refreshStatus == 'async'){
+        const data = {
+          tangki1: this.hidroponik.ultrasonik[0],
+          tangki2: this.hidroponik.ultrasonik[1],
+          tangki3: this.hidroponik.ultrasonik[2],
+          tds: this.hidroponik.tds,
+          ppm: this.hidroponik.ppm,
+          auto: this.hidroponik.mode,
+          pompa1: this.hidroponik.pompa[0],
+          pompa2: this.hidroponik.pompa[1],
+          pompa3: this.hidroponik.pompa[2],
+          pompa4: this.hidroponik.pompa[3]
+        }
+
+        let error = await supabase.from('hidroponik').update(data).match({'id_hidroponik':1}).then(e=>e.error)
+        if(error)console.log(error)
+        return 
+      }
+      const {data} = await supabase.from('hidroponik').select().match({'id_hidroponik':1})
+      data.forEach(e=>{
+        this.hidroponik.ultrasonik[0] = e.tangki1
+        this.hidroponik.ultrasonik[1] = e.tangki2
+        this.hidroponik.ultrasonik[2] = e.tangki3
+        this.hidroponik.tds = e.tds
+        this.hidroponik.ppm = e.ppm
+        this.hidroponik.mode = e.auto
+        this.hidroponik.pompa[0] = e.pompa1
+        this.hidroponik.pompa[1] = e.pompa2
+        this.hidroponik.pompa[2] = e.pompa3
+        this.hidroponik.pompa[3] = e.pompa4
+      })
+    }
   }
 }
 </script>
@@ -315,7 +353,7 @@ export default{
       <div class="flex items-center">
         <h1 class="mt-2 mx-2">Hidroponik</h1> 
         <!-- refresh button -->
-        <button @click="refresh" class="mt-2 mx-2 border px-3 hover:underline ">refresh</button>
+        <button @click="refresh" class="mt-2 mx-2 border px-3 hover:underline ">{{refreshStatus}}</button>
         
       </div>
       <div class="text-center text-red-600 text-xs" v-if="!hidroponik.ppmvalid">
@@ -339,14 +377,14 @@ export default{
           {{(i)?'aktif':'non aktif'}}
         </div>
         <!-- mode w -->
-        <div @click="hidroponik.mode = !hidroponik.mode" class="rounded-md p-2 m-2 w-36 sm:w-48 text-center bg-lime-600 text-white sm:hover:opacity-60 cursor-pointer">
+        <div @click="(hidroponik.mode = !hidroponik.mode), refreshStatus='async'" class="rounded-md p-2 m-2 w-36 sm:w-48 text-center bg-lime-600 text-white sm:hover:opacity-60 cursor-pointer">
           <span class="underline">mode</span><br>
           {{(hidroponik.mode)?'auto':'manual'}}
         </div>
         <!-- ppm w -->
         <div class="rounded-md p-2 m-2 w-36 sm:w-48 text-center bg-lime-600 text-white cursor-pointer">
           <span class="underline">ppm (0-1500)</span><br>
-          <input type="number" v-model="hidroponik.ppm"  class="bg-lime-600 text-center outline-none border w-24" min="0" max="1500">
+          <input @click="refreshStatus = 'async'" type="number" v-model="hidroponik.ppm"  class="bg-lime-600 text-center outline-none border w-24" min="0" max="1500">
         </div>
 
       </div>
