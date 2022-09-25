@@ -7,7 +7,7 @@
         <p class="text-3xl">DESA SONGO</p>
       </div>
       <p class="my-2 text-justify sm:pl-48 sm:pr-8">
-        The Urban Village Project rethinks hows we design, build, finance and share out future home, neighbourhoods and cities. The aim is to allow for cheaper homes to enter the market, it easier to live sustainably and affordabl, and ensure more fulfilling ways of living together. Here's how we envision that to happen.
+        Desa Songo adalah sebutan lain dari Kampung Songo yang berlokasi di Simomulyo Baru, RT 09 RW 03, Kelurahan Simomulyo Baru, Kecamatan Sukomanunggal, Surabaya. Penduduk pada kampung ini berhasil mengubah suasana kumuh dan kini menjadi bersih dan hijau melalui program "Urban Farming" melalui teknik hidroponik, tanaman sayur dalam pot (tasapot), tanaman buah dalam pot (tabulampot).Dengan dilaksanakannya program tersebut, kampung ini kini mempunyai daya tarik bagi pengunjung-pengunjung dari luar desa untuk mengunjungi kampung ini.
       </p>
     </div>
 
