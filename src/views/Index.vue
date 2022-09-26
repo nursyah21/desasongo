@@ -19,22 +19,18 @@ export default{
       navbar:[
         {page:'home', active:true},
         {page:'blog', active:false},
-        {page:'shop', active:false}
       ],
       blog:[],
-      shop:[],
       blogIdx:0,
-      shopIdx:0,
       lengthIdx:1,
     }
   },
   methods:{
     async getData(){
       this.loading = true
-      const {blog, shop} = await utils.getDataIndex()
+      const {blog} = await utils.getDataIndex()
       this.loading = false
       this.blog = blog
-      this.shop = shop
     },
     move(e){
       this.navbar.forEach(e=>e.active = false)
@@ -71,25 +67,6 @@ export default{
         <!-- pagination -->
         <div class="text-center">
           <button  class="border px-2 mx-2 mb-2 hover:underline" :class="{underline: (blogIdx == i-1 )}" @click="blogIdx = i - 1" v-for="i in Number((blog.length / lengthIdx).toFixed())">{{i}}</button>
-        </div>
-
-      </div>
-
-      <!-- Shop -->
-      <div class="my-2 border-b mt-10" :class="{hidden: !navbar[2]['active']}" >
-        <div class="p-3 border shadow rounded-lg flex my-2" v-for="i in shop.slice(shopIdx, shopIdx+lengthIdx+1)">
-          <img :src="i.img_url" alt="" class="w-24 sm:w-28">
-          <div class="text-sm sm:text-base ml-4">
-            <p>{{i.name}}</p>
-            <p>{{i.price}}</p>
-            <div class="h-2"></div>
-            <a class="bg-green-400 px-6 rounded-lg py-1 text-white cursor-pointer" :href="i.url">Beli</a>
-          </div>
-        </div>
-
-        <!-- pagination -->
-        <div class="text-center">
-          <button  class="border px-2 mx-2 mb-2 hover:underline" :class="{underline: (shopIdx == i-1 )}" @click="shopIdx = i - 1" v-for="i in Number((shop.length / lengthIdx).toFixed())">{{i}}</button>
         </div>
 
       </div>

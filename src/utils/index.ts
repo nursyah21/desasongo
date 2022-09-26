@@ -28,20 +28,15 @@ const getDataIndex = async function(){
   link:'/blog/tentang-desa-songo',
   release:'20 december 2022'}
    */
-  /** shop
-   * {title:'sayur box', img_url:'/src/assets/sayur.webp', 
-  link:'https://www.tokopedia.com/sayursegardepok/bayam-hijau-sayur-1-ikat-fresh?extParam=ivf%3Dfalse&src=topads',
-  price:'Rp. 10,000'}
-   */
+     
   const blog:Array<any> = []
-  const shop:Array<any> = []
+  
 
   let blog_data = await supabase.from('blog').select('blog_id, release, title, link, preview_data').order('blog_id', {ascending: false}).then(e=>e.data)
-  let shop_data = await supabase.from('shop').select('shop_id, name, url, price, img_url').order('shop_id', {ascending: false}).then(e=>e.data)
   blog_data?.forEach(e=>blog.push(e))
-  shop_data?.forEach(e=>shop.push(e))
 
-  return {blog, shop}
+
+  return {blog}
 }
 
 const login = async function(name:string, pass:string){
@@ -101,9 +96,53 @@ const insertblog = async function(title:string){
     return ''
   }catch(e){
     return e
-  }
-    
-
+  } 
 }
 
-export default{visited, login, encryptPass, comparePass, insertblog, getDataIndex}
+const updateblog = async function(id:string, title:string, oldurl: string){
+  try{
+    var content = document.querySelector('.fr-element.fr-view') as HTMLElement | null
+    var submitcontent = content!!.innerHTML
+
+    var img = content!!.querySelectorAll('img')
+    for(var i=0; i < img.length; i++){
+      var s = img[i].src.split('/').pop()
+
+      // upload image
+      var up = await fetch(img[i].src).then(r=>r.blob())
+      try{
+        await supabase.storage.from('public').upload(`${s}.jpg`, up)
+      }catch(e){}
+      
+
+      // change blob to img in innerhtml      
+      s = `${import.meta.env.VITE_SUPABASE_URL}/storage/v1/object/public/public/${s}.jpg`
+      submitcontent = submitcontent.replace(img[i].src, s)
+    }
+    
+    
+    
+    const datas = {
+      title: title,
+      link: title.replaceAll(' ','-').toLowerCase(),
+      data: submitcontent,
+      preview_data: content!!.innerText.replaceAll('\n\n',' ').replace('\n','').slice(0,150)+'...',
+      release: new Date().toDateString(),
+      views: 0
+    }
+
+    let message_err = await supabase.from('comment').update({url_blog:datas.link}).match({url_blog:oldurl}).then(e=>e.error)
+    
+    if(message_err)console.log(message_err)
+
+    const {error} = await supabase.from('blog').update(datas).match({blog_id:id})
+    console.log(datas, id)
+    if(error) throw 'fail to upload content'
+
+    return ''
+  }catch(e){
+    return e
+  } 
+}
+
+export default{visited, login, encryptPass, comparePass, insertblog, getDataIndex, updateblog}
