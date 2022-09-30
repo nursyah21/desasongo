@@ -145,4 +145,5 @@ const updateblog = async function(id:string, title:string, oldurl: string){
   } 
 }
 
+
 export default{visited, login, encryptPass, comparePass, insertblog, getDataIndex, updateblog}

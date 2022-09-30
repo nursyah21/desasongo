@@ -13,6 +13,7 @@ export default{
   mounted(){
     this.autologin()
     this.refreshHidroponik()
+    this.realtimeHidroponik()    
   },
   data(){
     return{
@@ -45,7 +46,7 @@ export default{
         deleteModal:false,
         list: [],
         listIdx: 0,
-        lengthlist: 100,
+        lengthlist: 50,
         submit:'submit',
         blog_id:'',
         old_url:''
@@ -53,7 +54,7 @@ export default{
       comment:{
         list:[],
         listIdx: 0,
-        lengthlist: 1,
+        lengthlist: 50,
         deleteModal: false,
         deleteMessage: '',
         deleteMessageID: ''
@@ -241,6 +242,7 @@ export default{
         return 
       }
       const {data} = await supabase.from('hidroponik').select().match({'id_hidroponik':1})
+
       data.forEach(e=>{
         this.hidroponik.ultrasonik[0] = e.tangki1
         this.hidroponik.ultrasonik[1] = e.tangki2
@@ -253,6 +255,26 @@ export default{
         this.hidroponik.pompa[2] = e.pompa3
         this.hidroponik.pompa[3] = e.pompa4
       })
+    },
+    realtimeHidroponik (){
+      supabase.from('hidroponik').on('UPDATE', async (payload)=>{
+        
+        console.log('update', payload)
+        const {data} = await supabase.from('hidroponik').select().match({'id_hidroponik':1})
+
+        data.forEach(e=>{
+          this.hidroponik.ultrasonik[0] = e.tangki1
+          this.hidroponik.ultrasonik[1] = e.tangki2
+          this.hidroponik.ultrasonik[2] = e.tangki3
+          this.hidroponik.tds = e.tds
+          this.hidroponik.ppm = e.ppm
+          this.hidroponik.mode = e.auto
+          this.hidroponik.pompa[0] = e.pompa1
+          this.hidroponik.pompa[1] = e.pompa2
+          this.hidroponik.pompa[2] = e.pompa3
+          this.hidroponik.pompa[3] = e.pompa4
+        })
+      }).subscribe()
     },
     async editBlog(blog_id, blog_url){
       const {data} = await supabase.from('blog').select().match({'blog_id':blog_id})
