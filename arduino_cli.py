@@ -12,6 +12,8 @@ VITE_SUPABASE_ANON_KEY='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmF
 
 client = supabase.create_client(VITE_SUPABASE_URL, VITE_SUPABASE_ANON_KEY)
 
+
+
 # read 
 class CheckStats:
   def __init__(self):
@@ -62,7 +64,7 @@ class CheckStats:
       time.sleep(15)
       try:
         client.table('hidroponik').update(self.data).match({'id_hidroponik':1}).execute()
-        print("\nupdate\n")
+        print("\upload data\n")
       except:
         print("update data error")
 
