@@ -58,7 +58,7 @@ export default{
 </script>
 
 <template>
-<Loading :class="{hidden: !loading}" />
+<Loading :class="{hidden: !loading}">verification</Loading>
 <Modal  class="sm:bg-pale-gray">
     <div class="w-full sm:max-w-sm max-w-none  bg-white rounded-lg sm:border sm:shadow-md sm:h-fit p-3 text-gray-500">
       <div class="text-center">
