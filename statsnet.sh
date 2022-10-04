@@ -1,7 +1,12 @@
 n=0
 while true;do
   down=`cat /proc/net/dev | grep wlan0 | awk '{print $2}'`
+  down1=`cat /proc/net/dev | grep lo | awk '{print $2}'`
   up=`cat /proc/net/dev | grep wlan0 | awk '{print $10}'`
+  up1=`cat /proc/net/dev | grep lo | awk '{print $10}'`
+
+  down=$(($down+$down1))
+  up=$(($up+$up1))
 
   down=`echo "$down" / 1048576 | bc -l`
   up=`echo "$up" / 1048576 | bc -l`
@@ -12,5 +17,5 @@ while true;do
     n=0
   fi
 
-  sleep 1
+  sleep 5
 done
