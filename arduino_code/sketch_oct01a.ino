@@ -26,60 +26,49 @@ float jaraktarget=40;
 int hidroponikrun = 0;
 
 void ision() { //pompa1 isi
+  pompaoff();
   digitalWrite(pb1, HIGH);
-  digitalWrite(pk, LOW);
-  digitalWrite(pb2, LOW);
-  digitalWrite(pb3, LOW);
   pompa[0] = true;
 }
 void isioff() {
-  digitalWrite(pk, LOW);
-  digitalWrite(pb1, LOW);
-  digitalWrite(pb2, LOW);
-  digitalWrite(pb3, LOW);
+  pompaoff();
   pompa[1] = false;
 }
 void nutrision() { //pompa4 nutrisi
+  digitalWrite(pb3, HIGH);
   digitalWrite(pk, HIGH);
-  digitalWrite(pb1, LOW);
-  digitalWrite(pb2, LOW);
-  digitalWrite(pb3, LOW);
   pompa[3] = true;
 }
 void nutrisioff() {
-  digitalWrite(pk, LOW);
-  digitalWrite(pb1, LOW);
-  digitalWrite(pb2, LOW);
-  digitalWrite(pb3, LOW);
+  pompaoff();
   pompa[3] = false;
 }
 void kurason() { //pompa2 kuras
+  pompaoff();
   digitalWrite(pb2, HIGH);
-  digitalWrite(pk, LOW);
-  digitalWrite(pb1, LOW);
-  digitalWrite(pb3, LOW);
   pompa[1] = true;
 }
+
 void kurasoff() {
-  digitalWrite(pk, LOW);
-  digitalWrite(pb1, LOW);
-  digitalWrite(pb2, LOW);
-  digitalWrite(pb3, LOW);
+  pompaoff();
   pompa[1] = false;
 }
+
 void hidroponikon(){ //pompa3 hidroponik
-  digitalWrite(pk, LOW);
-  digitalWrite(pb1, LOW);
-  digitalWrite(pb2, LOW);
+  pompaoff();
   digitalWrite(pb3, HIGH);
   pompa[2] = true;
 }
 void hidroponikoff(){
+  pompaoff();
+  pompa[2] = false;
+}
+
+void pompaoff(){
   digitalWrite(pk, LOW);
   digitalWrite(pb1, LOW);
   digitalWrite(pb2, LOW);
   digitalWrite(pb3, LOW);
-  pompa[2] = false;
 }
 
 void setup() {
@@ -98,15 +87,9 @@ void setup() {
   pinMode(TDS, INPUT);
 }
 
-// hidroponik, pake hitungan jam, sec: 5
-// hidroponik on, everybody off
-
-
-
 long duration1, duration2, duration3 ;
 long cm1, cm2, cm3 ;
 int  state = 0;
-
 
 void loop()
 {
@@ -140,14 +123,11 @@ void loop()
   float ppm = analogRead(A5) * 1.953;
   ppm = 2.4969 * ppm - 0.0006 * ppm * ppm - 120.32;
 
-  
-  
   //readstring
   String test = Serial.readString();
   test.trim();
   
   if(test != ""){
-    Serial.println(test);
     //split text, pompa1, pompa2, pompa3, pompa4, auto, ppm
     String pompa1 = getValue(test,',',0);
     String pompa2 = getValue(test,',',1);
@@ -160,12 +140,10 @@ void loop()
     
     ppmtarget = ppm.toInt();
     
-    
     if(pompa1 == "True") ision(); else isioff();
     if(pompa2 == "True") kurason(); else kurasoff();
     if(pompa3 == "True") hidroponikon(); else hidroponikoff();
     if(pompa4 == "True") nutrision(); else nutrisioff();
-    
   }else{
     // state
     Serial.print("State = ");
@@ -228,9 +206,6 @@ void mode_auto_hidroponik(){
     }
   }
   else if (state == 1){ /// nutrisi ///
-//    float ppm = analogRead(A5) * 1.953;
-//    ppm = 2.4969 * ppm - 0.0006 * ppm * ppm - 120.32;
-
     if (ppm < ppmtarget){
       nutrision();
     }
@@ -243,7 +218,6 @@ void mode_auto_hidroponik(){
     if ((ppm < (ppmtarget-100))&&(cm1 > (40.00))){
       kurasoff();
        state=0;
-     
     }
     else if ((ppm > (ppmtarget+100))||(cm1 < (10.00))){
       kurason();
@@ -251,5 +225,4 @@ void mode_auto_hidroponik(){
     }
   }
 }
-
  
