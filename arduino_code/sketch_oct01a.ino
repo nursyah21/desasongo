@@ -21,10 +21,11 @@ int pompa[4] = {false, false, false, false};
 // pompa[1] -> pb2 || pompa[3] -> pk
 
 float ppm;
-float ppmtarget=1000;
+int ppmtarget=1000;
 float jaraktarget=40;
+int hidroponikrun = 0;
 
-void ision() {
+void ision() { //pompa1 isi
   digitalWrite(pb1, HIGH);
   digitalWrite(pk, LOW);
   digitalWrite(pb2, LOW);
@@ -38,7 +39,7 @@ void isioff() {
   digitalWrite(pb3, LOW);
   pompa[1] = false;
 }
-void nutrision() {
+void nutrision() { //pompa4 nutrisi
   digitalWrite(pk, HIGH);
   digitalWrite(pb1, LOW);
   digitalWrite(pb2, LOW);
@@ -52,7 +53,7 @@ void nutrisioff() {
   digitalWrite(pb3, LOW);
   pompa[3] = false;
 }
-void kurason() {
+void kurason() { //pompa2 kuras
   digitalWrite(pb2, HIGH);
   digitalWrite(pk, LOW);
   digitalWrite(pb1, LOW);
@@ -66,7 +67,7 @@ void kurasoff() {
   digitalWrite(pb3, LOW);
   pompa[1] = false;
 }
-void hidroponikon(){
+void hidroponikon(){ //pompa3 hidroponik
   digitalWrite(pk, LOW);
   digitalWrite(pb1, LOW);
   digitalWrite(pb2, LOW);
@@ -140,12 +141,13 @@ void loop()
   ppm = 2.4969 * ppm - 0.0006 * ppm * ppm - 120.32;
 
   
+  
   //readstring
   String test = Serial.readString();
   test.trim();
+  
   if(test != ""){
     Serial.println(test);
-
     //split text, pompa1, pompa2, pompa3, pompa4, auto, ppm
     String pompa1 = getValue(test,',',0);
     String pompa2 = getValue(test,',',1);
@@ -154,15 +156,17 @@ void loop()
     String mode = getValue(test,',',4);
     String ppm = getValue(test,',',5); //ppm target
 
-    mode_auto = (mode == "true") ? true:false;
+    mode_auto = (mode == "True") ? true:false;
     
-    Serial.print(pompa1 + " || " + pompa2 + " || "+pompa3+ " || " +pompa4);
-    Serial.print(" || " + mode + " || " + ppm);
+    ppmtarget = ppm.toInt();
     
-    Serial.println("");
-    Serial.println("");
+    
+    if(pompa1 == "True") ision(); else isioff();
+    if(pompa2 == "True") kurason(); else kurasoff();
+    if(pompa3 == "True") hidroponikon(); else hidroponikoff();
+    if(pompa4 == "True") nutrision(); else nutrisioff();
+    
   }else{
-    // print
     // state
     Serial.print("State = ");
     Serial.print(state);
@@ -174,6 +178,8 @@ void loop()
     Serial.print(cm3);
     Serial.print(" || ppm = ");
     Serial.print(ppm);
+    Serial.print(" || ppmtarget = ");
+    Serial.print(ppmtarget);
   
     //pompa1
     Serial.print(" || pompa1 = ");
@@ -195,11 +201,20 @@ void loop()
   }
   if(mode_auto){
     mode_auto_hidroponik();
-  }else{
-    Serial.println("manual");
   }
   
-   delay(2000);
+  hidroponikrun++;
+  //hidroponik run every 1hour
+  if(hidroponikrun >= 1800){
+    hidroponikon();
+    //off after 1minutes
+    if(hidroponikrun >= 1830){
+      hidroponikoff();
+      hidroponikrun = 0;
+    }
+  }
+  
+  delay(2000);
 }
 
 void mode_auto_hidroponik(){
