@@ -259,7 +259,6 @@ export default{
     realtimeHidroponik (){
       supabase.from('hidroponik').on('UPDATE', async (payload)=>{
         
-        console.log('update', payload)
         const {data} = await supabase.from('hidroponik').select().match({'id_hidroponik':1})
 
         data.forEach(e=>{
@@ -274,6 +273,7 @@ export default{
           this.hidroponik.pompa[2] = e.pompa3
           this.hidroponik.pompa[3] = e.pompa4
         })
+        // console.log(data)
       }).subscribe()
     },
     async editBlog(blog_id, blog_url){

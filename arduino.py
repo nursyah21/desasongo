@@ -4,6 +4,7 @@ import codecs
 import threading
 import os
 import supabase
+from datetime import datetime
 
 arduino = serial.Serial(port='/dev/ttyACM0', baudrate=9600, timeout=.1)
 
@@ -11,7 +12,6 @@ VITE_SUPABASE_URL='https://wtdtmfajzokjvmuvgzjv.supabase.co'
 VITE_SUPABASE_ANON_KEY='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Ind0ZHRtZmFqem9ranZtdXZnemp2Iiwicm9sZSI6ImFub24iLCJpYXQiOjE2NjM3ODMwODAsImV4cCI6MTk3OTM1OTA4MH0.AJminOnfba8cOlYtLTPYUT78Gc00zCoSpejhb52tck4'
 
 client = supabase.create_client(VITE_SUPABASE_URL, VITE_SUPABASE_ANON_KEY)
-
 
 # read 
 class CheckStats:
@@ -48,10 +48,22 @@ class CheckStats:
           self.data['tangki1'] = float(io.split('||')[1].split('=')[1])
           self.data['tangki2'] = float(io.split('||')[2].split('=')[1])
           self.data['tangki3'] = float(io.split('||')[3].split('=')[1])
-          self.data['tds'] = float(io.split('||')[4].split('=')[1].strip())
-          self.data['ppm'] = int(io.split('||')[5].split('=').strip())
+          self.data['tds'] = float(io.split('||')[4].split('=')[1])
+          self.data['ppm'] = int(io.split('||')[5].split('=')[1])
+          self.data['pompa1'] = 1 if io.split('||')[6].split('=')[1].strip() == 'on' else 0
+          self.data['pompa2'] = 1 if io.split('||')[7].split('=')[1].strip() == 'on' else 0
+          self.data['pompa3'] = 1 if io.split('||')[8].split('=')[1].strip() == 'on' else 0
+          self.data['pompa4'] = 1 if io.split('||')[9].split('=')[1].strip() == 'on' else 0
+          self.data['auto'] = 1 if io.split('||')[10].split('=')[1].strip() == 'auto' else 0
+
+          # check time to mode auto
+          if datetime.now().hour == 18:
+            arduino.write(bytes('auto','utf-8'))
+            # self.__auto = False
+          
+
         except:
-          print("")
+          print("error to get data")
 
         self.__count += 1
 
@@ -62,31 +74,30 @@ class CheckStats:
   def send_data(self):
     while True:
       time.sleep(15)
-      
+
       try:
         data = client.table('hidroponik').select('*').execute()
         data = data.data[0]
-        
+
         data1 = f"{data['pompa1']},{data['pompa2']},{data['pompa3']},{data['pompa4']},{data['auto']},{data['ppm']}"
         arduino.write(bytes(data1,'utf-8'))
         
-        self.data['pompa1'] = 1 if data['pompa1'] == True else 0
-        self.data['pompa2'] = 1 if data['pompa2'] == True else 0
-        self.data['pompa3'] = 1 if data['pompa3'] == True else 0
-        self.data['pompa4'] = 1 if data['pompa4'] == True else 0
+        if data['auto'] == False:
+          self.data['pompa1'] = 1 if data['pompa1'] == True else 0
+          self.data['pompa2'] = 1 if data['pompa2'] == True else 0
+          self.data['pompa3'] = 1 if data['pompa3'] == True else 0
+          self.data['pompa4'] = 1 if data['pompa4'] == True else 0
+        
         self.data['auto'] = 1 if data['auto'] == True else 0
         self.data['ppm'] = int(data['ppm'])
 
-        client.table('hidroponik').update(self.data).match({'id_hidroponik':1}).execute()
+        client.table('hidroponik').update(self.data).match({'id_hidroponik':1}).execute()          
 
         a=os.system('date')
         print("\nsync data\n")
       except:
         print("\nupdate data error\n")
-
   
-
-
 
 if __name__ == "__main__":
   c = CheckStats()

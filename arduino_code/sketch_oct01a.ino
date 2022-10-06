@@ -6,10 +6,8 @@
 
 const int UltrasonikTrig1 = 2;
 const int UltrasonikEcho1 = 3;
-
 const int UltrasonikTrig2 = 4;
 const int UltrasonikEcho2 = 5;
-
 const int UltrasonikTrig3 = 6;
 const int UltrasonikEcho3 = 7;
 
@@ -32,10 +30,10 @@ void ision() { //pompa1 isi
 }
 void isioff() {
   pompaoff();
-  pompa[1] = false;
+  pompa[0] = false;
 }
 void nutrision() { //pompa4 nutrisi
-  digitalWrite(pb3, HIGH);
+  pompaoff();
   digitalWrite(pk, HIGH);
   pompa[3] = true;
 }
@@ -48,12 +46,10 @@ void kurason() { //pompa2 kuras
   digitalWrite(pb2, HIGH);
   pompa[1] = true;
 }
-
 void kurasoff() {
   pompaoff();
   pompa[1] = false;
 }
-
 void hidroponikon(){ //pompa3 hidroponik
   pompaoff();
   digitalWrite(pb3, HIGH);
@@ -65,6 +61,7 @@ void hidroponikoff(){
 }
 
 void pompaoff(){
+  if(!mode_auto)return;
   digitalWrite(pk, LOW);
   digitalWrite(pb1, LOW);
   digitalWrite(pb2, LOW);
@@ -80,7 +77,6 @@ void setup() {
   pinMode(pb2, OUTPUT); //pompa2
   pinMode(pb3, OUTPUT); //pompa3
   pinMode(pk, OUTPUT); //pompa4
-
   pinMode(UltrasonikEcho1, INPUT);
   pinMode(UltrasonikEcho2, INPUT);
   pinMode(UltrasonikEcho3, INPUT);
@@ -96,10 +92,8 @@ void loop()
 /// aktifin sensor jarak ///
   digitalWrite(UltrasonikTrig1, LOW);
   digitalWrite(UltrasonikTrig1, HIGH);
-
   digitalWrite(UltrasonikTrig2, LOW);
   digitalWrite(UltrasonikTrig2, HIGH);
-
   digitalWrite(UltrasonikTrig3, LOW);
   digitalWrite(UltrasonikTrig3, HIGH);
 
@@ -107,14 +101,11 @@ void loop()
 
   digitalWrite(UltrasonikTrig1, LOW);
   duration1 = pulseIn(UltrasonikEcho1, HIGH);
-
   digitalWrite(UltrasonikTrig2, LOW);
   duration2 = pulseIn(UltrasonikEcho2, HIGH);
-
   digitalWrite(UltrasonikTrig3, LOW);
   duration3 = pulseIn(UltrasonikEcho3, HIGH);
   
-
   cm1 = duration1 * 0.034 / 2;
   cm2 = duration2 * 0.034 / 2;
   cm3 = duration3 * 0.034 / 2;
@@ -137,7 +128,6 @@ void loop()
     String ppm = getValue(test,',',5); //ppm target
 
     mode_auto = (mode == "True") ? true:false;
-    
     ppmtarget = ppm.toInt();
     
     if(pompa1 == "True") ision(); else isioff();
@@ -146,18 +136,12 @@ void loop()
     if(pompa4 == "True") nutrision(); else nutrisioff();
   }else{
     // state
-    Serial.print("State = ");
-    Serial.print(state);
-    Serial.print(" || jarak1 = ");
-    Serial.print(cm1);
-    Serial.print(" || jarak2 = ");
-    Serial.print(cm2);
-    Serial.print(" || jarak3 = ");
-    Serial.print(cm3);
-    Serial.print(" || ppm = ");
-    Serial.print(ppm);
-    Serial.print(" || ppmtarget = ");
-    Serial.print(ppmtarget);
+    Serial.print("State = "); Serial.print(state);
+    Serial.print(" || jarak1 = "); Serial.print(cm1);
+    Serial.print(" || jarak2 = "); Serial.print(cm2);
+    Serial.print(" || jarak3 = "); Serial.print(cm3);
+    Serial.print(" || ppm = "); Serial.print(ppm);
+    Serial.print(" || ppmtarget = "); Serial.print(ppmtarget);
   
     //pompa1
     Serial.print(" || pompa1 = ");
@@ -175,27 +159,15 @@ void loop()
     //mode
     Serial.print(" || Mode = ");
     if(mode_auto)Serial.println("auto"); else Serial.println("manual");
-       
-  }
-  if(mode_auto){
-    mode_auto_hidroponik();
   }
   
-  hidroponikrun++;
-  //hidroponik run every 1hour
-  if(hidroponikrun >= 1800){
-    hidroponikon();
-    //off after 1minutes
-    if(hidroponikrun >= 1830){
-      hidroponikoff();
-      hidroponikrun = 0;
-    }
-  }
+  if(mode_auto)mode_auto_hidroponik();  
   
   delay(2000);
 }
 
 void mode_auto_hidroponik(){
+  hidroponikon();
   if (state == 0){  /// ngisi air ///
     if (cm1 > jaraktarget){
       ision();
@@ -226,3 +198,17 @@ void mode_auto_hidroponik(){
   }
 }
  
+String getValue(String data, char separator, int index){
+  int found = 0;
+  int strIndex[] = {0, -1};
+  int maxIndex = data.length() - 1;
+
+  for(int i=0; i <= maxIndex && found <= index; i++){
+    if(data.charAt(i) == separator || i == maxIndex){
+       found++;
+       strIndex[0] = strIndex[1] + 1;
+       strIndex[1] = (i == maxIndex) ? i+1 : i;
+    }
+  }
+  return found > index ? data.substring(strIndex[0], strIndex[1]) : "";  
+}
