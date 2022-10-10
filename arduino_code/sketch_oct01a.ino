@@ -11,9 +11,7 @@ const int UltrasonikEcho2 = 5;
 const int UltrasonikTrig3 = 6;
 const int UltrasonikEcho3 = 7;
 
-const int microsecondsKeCenti = 0;
-
-bool mode_auto = true;
+bool mode_auto = false;
 int pompa[4] = {false, false, false, false};
 // pompa[0] -> pb1 || pompa[2] -> pb3
 // pompa[1] -> pb2 || pompa[3] -> pk
@@ -66,6 +64,9 @@ void pompaoff(){
   digitalWrite(pb1, LOW);
   digitalWrite(pb2, LOW);
   digitalWrite(pb3, LOW);
+  pompa[0] = false;
+  pompa[1] = false;
+  pompa[2] = false;
 }
 
 void setup() {
@@ -118,7 +119,7 @@ void loop()
   String test = Serial.readString();
   test.trim();
   
-  if(test != ""){
+  if(test != ""){    
     //split text, pompa1, pompa2, pompa3, pompa4, auto, ppm
     String pompa1 = getValue(test,',',0);
     String pompa2 = getValue(test,',',1);
@@ -126,10 +127,13 @@ void loop()
     String pompa4 = getValue(test,',',3);
     String mode = getValue(test,',',4);
     String ppm = getValue(test,',',5); //ppm target
-
     mode_auto = (mode == "True") ? true:false;
-    ppmtarget = ppm.toInt();
     
+    if (test == "auto")mode_auto = true;
+    
+    
+    ppmtarget = ppm.toInt();
+
     if(pompa1 == "True") ision(); else isioff();
     if(pompa2 == "True") kurason(); else kurasoff();
     if(pompa3 == "True") hidroponikon(); else hidroponikoff();
@@ -160,12 +164,13 @@ void loop()
     Serial.print(" || Mode = ");
     if(mode_auto)Serial.println("auto"); else Serial.println("manual");
   }
-  
+
   if(mode_auto)mode_auto_hidroponik();  
   
   delay(2000);
 }
 
+int stopauto = 0;
 void mode_auto_hidroponik(){
   hidroponikon();
   if (state == 0){  /// ngisi air ///
@@ -189,7 +194,12 @@ void mode_auto_hidroponik(){
   else if (state == 2){ /// kuras air///
     if ((ppm < (ppmtarget-100))&&(cm1 > (40.00))){
       kurasoff();
-       state=0;
+      stopauto++;
+      if(stopauto == 10){
+        stopauto=0;
+        mode_auto = false;
+      }
+      state=0;
     }
     else if ((ppm > (ppmtarget+100))||(cm1 < (10.00))){
       kurason();
@@ -197,7 +207,7 @@ void mode_auto_hidroponik(){
     }
   }
 }
- 
+
 String getValue(String data, char separator, int index){
   int found = 0;
   int strIndex[] = {0, -1};

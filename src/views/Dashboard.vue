@@ -20,7 +20,7 @@ export default{
       login: false,
       loading:false,
       loadingStatus:'',
-      refreshStatus:'refresh',
+      refreshStatus:'',
       nav:[
         {page: 'Home', active:true},
         {page: 'Blog', active:false},
@@ -172,7 +172,7 @@ export default{
       this.loading = true
       await this.refreshHidroponik()
       await this.genCharts()
-      this.refreshStatus = 'refresh'
+      this.refreshStatus = ''
       this.loading = false
     },
     pompaActivated(idx){
