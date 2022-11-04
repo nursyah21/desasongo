@@ -43,7 +43,8 @@ class CheckStats:
 
       if io.strip() != "" and io[0:5] == "State":
         a=os.system('date')
-        print(f"{io}\n")
+        show = io.replace('jarak1', 'j_air').replace('jarak2','j_nutrisi').replace('jarak3','j_mix').replace('pompa1','p_isi').replace('pompa2','p_kuras').replace('pompa3','p_nutrisi').replace('pompa3','p_nutrisi').replace('pompa4','p_hidroponik')
+        print(f"{show}\n")
 
         try:
           self.data['tangki1'] = float(io.split('||')[1].split('=')[1])
@@ -74,7 +75,7 @@ class CheckStats:
     
   def send_data(self):
     while True:
-      time.sleep(15)
+      time.sleep(10)
 
       try:
         data = client.table('hidroponik').select('*').execute()

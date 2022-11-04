@@ -291,6 +291,12 @@ export default{
       this.loadingStatus = ''
       this.loading = false
 
+    },
+    nameTangki(idx){
+      return ['air','nutrisi','mix'][idx]
+    },
+    namePompa(idx){
+      return ['isi','kuras','nutrisi','hidroponik'][idx]
     }
   }
 }
@@ -331,7 +337,7 @@ export default{
       <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-6 select-none">
         <!-- ultrasonik -->
         <div v-for="i,idx in hidroponik.ultrasonik" class="rounded-md p-2 m-2 w-36 sm:w-48 text-center bg-blue-500 text-white cursor-default">
-          <span class="underline">tangki air {{idx + 1}}</span><br>
+          <span class="underline">tangki {{nameTangki(idx)}}</span><br>
           {{i}}
         </div>
         <!-- tds -->
@@ -341,7 +347,7 @@ export default{
         </div>
         <!-- pompa w -->
         <div @click="pompaActivated(idx)" v-for="i,idx in hidroponik.pompa" class="rounded-md p-2 m-2 w-36 sm:w-48 text-center bg-lime-600 text-white sm:hover:opacity-60 cursor-pointer" :class="{'opacity-60': (hidroponik.mode)}">
-          <span class="underline">pompa {{idx + 1}}</span><br>
+          <span class="underline">pompa {{namePompa(idx)}}</span><br>
           {{(i)?'aktif':'non aktif'}}
         </div>
         <!-- mode w -->
