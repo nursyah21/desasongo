@@ -18,4 +18,16 @@
   iframe{
     @apply w-full ;
   }
+  .btn-primary{
+    @apply px-6 py-2 font-medium tracking-wide text-white capitalize transition-colors duration-300 transform bg-green-600 rounded-md hover:bg-green-500 focus:outline-none focus:ring focus:ring-green-300 focus:ring-opacity-80;
+  }
+  .nav-link{
+    @apply  text-green-700 mx-3 duration-300 transform transition-colors ;
+  }
+  .nav-link:hover{
+    @apply text-green-600 underline;
+  }
+  .btn-dropdown{
+    @apply relative z-10 block p-2 text-gray-700 bg-white border rounded-md dark:text-white hover:border-blue-500; 
+  }
 }

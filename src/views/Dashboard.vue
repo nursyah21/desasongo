@@ -339,6 +339,9 @@ export default{
         <div v-for="i,idx in hidroponik.ultrasonik" class="rounded-md p-2 m-2 w-36 sm:w-48 text-center bg-blue-500 text-white cursor-default">
           <span class="underline">tangki {{nameTangki(idx)}}</span><br>
           {{i}}
+          {{
+            (i <= 5)?100: i / [60,24,34][idx]
+          }} %
         </div>
         <!-- tds -->
         <div class="border p-2 m-2 w-36 sm:w-48 text-center bg-blue-600 text-white cursor-default">

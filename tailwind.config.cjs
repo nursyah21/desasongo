@@ -8,6 +8,9 @@ module.exports = {
     extend: {
       colors:{
         'pale-gray':'#F3F4F6',
+      },
+      backgroundImage:{
+        'banner': "url('/assets/banner.jpeg')"
       }
     },
   },
