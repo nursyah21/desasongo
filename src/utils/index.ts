@@ -1,5 +1,6 @@
 import { supabase } from "../supabase";
 import bcrypt from "bcryptjs"
+import { v4 as uuidv4 } from 'uuid';
 
 const visited = async function(){
   const {data, error} = await supabase.from('visited').select().match({time: new Date().toDateString()})
@@ -110,8 +111,9 @@ const updateblog = async function(id:string, title:string, oldurl: string){
 
       // upload image
       var up = await fetch(img[i].src).then(r=>r.blob())
+      s = `${uuidv4()}-${s}.jpg`
       try{
-        await supabase.storage.from('public').upload(`${s}.jpg`, up)
+        await supabase.storage.from('public').upload(s, up)
       }catch(e){}
       
 
