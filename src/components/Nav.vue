@@ -12,7 +12,7 @@ export default{
     dropdownFunc(){
       // alert('ah')
       this.dropdown = !this.dropdown
-      if(this.dropdown) window.location.href = `${window.location.href}/#body`;
+      if(this.dropdown) window.location.href = `#`;
     }
   },
 }
