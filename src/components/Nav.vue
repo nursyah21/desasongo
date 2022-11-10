@@ -12,7 +12,7 @@ export default{
     dropdownFunc(){
       // alert('ah')
       this.dropdown = !this.dropdown
-      if(this.dropdown) window.location.href = `${window.location.origin}/#body`;
+      if(this.dropdown) window.location.href = `${window.location.href}/#body`;
     }
   },
 }
@@ -44,7 +44,7 @@ export default{
   </nav>
 
   
-  <div v-show="dropdown" class="py-2 absolute z-50 bg-white w-screen h-screen md:invisib">
+  <div v-show="dropdown" class="py-2 absolute z-50 bg-white w-screen h-screen md:invisible">
     <a href="/" class="nav-link" :class="{'underline': stats == 'home'}">Home</a><br class="my-1">
     <a href="/blog/urban-farming" class="nav-link" :class="{'underline': stats == 'urbanFarming'}">Urban Farming</a><br class="my-1">
     <a href="/blog/tanaman" class="nav-link"  :class="{'underline': stats == 'tanaman'}">Tanaman</a><br class="my-1">
