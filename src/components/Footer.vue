@@ -15,7 +15,8 @@
       </div>
     </div>
 
-    <div class="flex text-xs justify-center w-full text-center text-slate-300">
+    
+    <div class="flex text-xs justify-center w-full text-center text-slate-300 mt-4">
       <p>copyright 2022 desasongo<br><a href="https://github.com/nursyah21/cmsblog">powered by cmsblog</a></p>
     </div>
   </div>

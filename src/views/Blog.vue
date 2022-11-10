@@ -1,13 +1,13 @@
 <script>
-import { Footer } from '../components'
+import { Footer, Loading, Nav } from '../components'
 import { supabase } from '../supabase'
-import Loading from '../components/Loading.vue'
 import utils from "../utils"
 
 export default{
   components: {
     Footer,
-    Loading
+    Loading,
+    Nav
   },
   data(){
     return{
@@ -22,11 +22,15 @@ export default{
         content:'',
         fail:'',
         url_blog:''
-      }
+      },
+      statsNav: 'blog'
     }
   },
   mounted() {
       this.getContent()
+      utils.visited()
+      //change document title
+      this.a()
   },
   methods: {
     async getComment(blog_id){
@@ -89,6 +93,21 @@ export default{
       const {error} = await supabase.from('comment').insert(datas)
       if(error && !(this.loading = false))return this.comment.fail = "fail to send commment"
       window.location.reload()
+    },
+    a(){ //i don't know how to name this function
+      var a = window.location.href.split('/').pop().replaceAll('-',' ')
+      window.document.title = `${a} | desa songo`
+      switch(a){
+        case 'tentang desa songo':
+          this.statsNav = 'about'
+          break
+        case 'urban farming':
+          this.statsNav = 'urbanFarming'
+          break
+        case 'tanaman':
+          this.statsNav = 'tanaman'
+          break
+      }
     }
   },
 }
@@ -96,20 +115,16 @@ export default{
 
 <template>
   <Loading v-if="loading">{{loadingStatus}}</Loading>
-  <div class="text-gray-500">
+  <div class="text-gray-500 m-0">
     <!-- navbar -->
-    <div class="bg-white border-b-2 pb-1 px-2 sm:px-8 pt-1 fixed top-0 w-screen left-0 bg-opacity-80 items-center">
-      <a href="/" class="mx-2 text-xl hover:underline cursor-pointer">Home</a> <span class="text-lg">
-        | Desa Songo
-      </span>
-    </div>
+    <Nav :stats="statsNav" />
 
     <!-- notfound -->
     <div v-if="notfound" class="flex text-xl justify-center h-[92vh] items-center">
     Content Not Found
     </div>
     <!-- content -->
-    <div v-else class="mt-12 mb-5 border-b py-2 mx-3">
+    <div v-else class="mb-5 border-b py-2 mx-3">
       <div class="flex justify-center">
         <div class="text-center">
           <!-- title -->

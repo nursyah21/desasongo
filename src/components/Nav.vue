@@ -39,7 +39,7 @@ export default{
       <a href="/blog/urban-farming" class="nav-link" :class="{'underline': stats == 'urbanFarming'}">Urban Farming</a>
       <a href="/blog/tanaman" class="nav-link" :class="{'underline': stats == 'tanaman'}">Tanaman</a>
       <a href="/list-blog" class="nav-link" :class="{'underline': stats == 'blog'}">Blog</a>
-      <a href="/blog/about" class="nav-link" :class="{'underline': stats == 'about'}">About</a>
+      <a href="/blog/tentang-desa-songo" class="nav-link" :class="{'underline': stats == 'about'}">About</a>
     </div>
   </nav>
 
@@ -49,7 +49,7 @@ export default{
     <a href="/blog/urban-farming" class="nav-link" :class="{'underline': stats == 'urbanFarming'}">Urban Farming</a><br class="my-1">
     <a href="/blog/tanaman" class="nav-link"  :class="{'underline': stats == 'tanaman'}">Tanaman</a><br class="my-1">
     <a href="/list-blog" class="nav-link"  :class="{'underline': stats == 'blog'}">Blog</a><br class="my-1">
-    <a href="/blog/about" class="nav-link"  :class="{'underline': stats == 'about'}">About</a>
+    <a href="/blog/tentang-desa-songo" class="nav-link"  :class="{'underline': stats == 'about'}">About</a>
   </div>
 
 </template>

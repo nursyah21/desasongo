@@ -8,8 +8,7 @@ export default {
     };
   },
   mounted(){
-    // utils.visited()
-    // this.getData()
+    utils.visited()
   },
   methods: {
     readMore(id) {
