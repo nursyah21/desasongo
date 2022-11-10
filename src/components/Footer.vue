@@ -1,6 +1,23 @@
 <template>
-  <div class="text-xs font-light text-gray-400 text-center bottom-0 mb-2">
-    <p>copyright 2022 desasongo</p>
-    powered by <a href="https://github.com/nursyah21/cmsblog">cmsblog</a>
+  <div class="bg-slate-800 text-white p-6 mt-5">
+    <!-- lokasi -->
+    <div class="flex text-xs md:text-sm mb-2 justify-between">
+      <div>
+        <a href="https://goo.gl/maps/W9H53eUJgHqZYbEx5">Lokasi</a> <br>
+        <p class="w-72">
+          Kampung Songo, Simomulyo Baru, RT 09 RW 03, Kelurahan Simomulyo Baru, Kecamatan Sukomanunggal, Surabaya <br>
+        </p>
+      </div>
+
+      <div>
+        Contact: <br>
+        No. Telepon : 085843491415 (Bu Yaning)
+      </div>
+    </div>
+
+    <div class="flex text-xs justify-center w-full text-center text-slate-300">
+      <p>copyright 2022 desasongo<br><a href="https://github.com/nursyah21/cmsblog">powered by cmsblog</a></p>
+    </div>
   </div>
+
 </template>
