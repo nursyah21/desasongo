@@ -1,5 +1,6 @@
 <script>
 import { Footer, Nav } from '../components';
+import utils from '../utils';
 
 export default {
   data() {

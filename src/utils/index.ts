@@ -111,14 +111,14 @@ const updateblog = async function(id:string, title:string, oldurl: string){
 
       // upload image
       var up = await fetch(img[i].src).then(r=>r.blob())
-      s = `${uuidv4()}-${s}.jpg`
+      s = `${uuidv4()}-${s}`
       try{
         await supabase.storage.from('public').upload(s, up)
       }catch(e){}
       
 
       // change blob to img in innerhtml      
-      s = `${import.meta.env.VITE_SUPABASE_URL}/storage/v1/object/public/public/${s}.jpg`
+      s = `${import.meta.env.VITE_SUPABASE_URL}/storage/v1/object/public/public/${s}`
       submitcontent = submitcontent.replace(img[i].src, s)
     }
     

@@ -1,5 +1,5 @@
 <template>
-  <div class="bg-slate-800 text-white p-6 mt-5">
+  <div class="bg-slate-800 text-white p-3 sm:p-6 mt-5">
     <!-- lokasi -->
     <div class="flex text-xs md:text-sm mb-2 justify-between">
       <div>
