@@ -65,16 +65,17 @@ const insertblog = async function(title:string){
     var img = content!!.querySelectorAll('img')
     for(var i=0; i < img.length; i++){
       var s = img[i].src.split('/').pop()
-
+      s = `${uuidv4()}-${s}`
+      
       // upload image
       var up = await fetch(img[i].src).then(r=>r.blob())
       try{
-        await supabase.storage.from('public').upload(`${s}.jpg`, up)
+        await supabase.storage.from('public').upload(`${s}`, up)
       }catch(e){}
       
 
       // change blob to img in innerhtml      
-      s = `${import.meta.env.VITE_SUPABASE_URL}/storage/v1/object/public/public/${s}.jpg`
+      s = `${import.meta.env.VITE_SUPABASE_URL}/storage/v1/object/public/public/${s}`
       submitcontent = submitcontent.replace(img[i].src, s)
     }
     
