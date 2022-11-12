@@ -91,4 +91,11 @@
     content: "";
     @apply absolute -bottom-2 left-0 w-3/4 h-1 bg-gradient-to-r from-green-600 rounded-md to-green-500;
   }
+
+  .dot-custom {
+    @apply w-[8px] h-[8px] bg-black rounded-full cursor-pointer;
+  }
+  .dot-custom.active {
+    @apply bg-green-500 cursor-default;
+  }
 }
