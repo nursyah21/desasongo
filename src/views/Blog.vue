@@ -98,7 +98,7 @@ export default{
   <Loading v-if="loading">{{loadingStatus}}</Loading>
   <div class="text-gray-500">
     <!-- navbar -->
-    <div class="bg-white border-b-2 pb-1 px-2 sm:px-8 pt-1 fixed top-0 w-screen left-0 bg-opacity-80 items-center">
+    <div class="bg-white border-b-2 pb-1 px-2 sm:px-8 pt-1 fixed top-0 w-full left-0 bg-opacity-80 items-center">
       <a href="/" class="mx-2 text-xl hover:underline cursor-pointer">Home</a> <span class="text-lg">
         | Desa Songo
       </span>

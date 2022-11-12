@@ -44,7 +44,7 @@ export default{
   <Loading v-if="loading">load data</Loading>
   <div class="text-gray-500 p-3">
     <!-- navbar -->
-    <div class="bg-white border-b-2 pb-1 px-2 sm:px-8 pt-1 fixed top-0 w-screen left-0 bg-opacity-80">
+    <div class="bg-white border-b-2 pb-1 px-2 sm:px-8 pt-1 fixed top-0 w-full left-0 bg-opacity-80">
       <button @click="move(idx)" :class="{underline: navbar[idx].active}" v-for="i,idx in navbar" class="mx-2 text-xl hover:underline">{{i.page}}</button>
     </div>
     <!-- banner -->
