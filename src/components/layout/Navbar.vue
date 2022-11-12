@@ -12,7 +12,7 @@
                 <router-link :to="{ name: 'index' }" class="nav-link">Home</router-link>
                 <router-link to="/urban-farming" class="nav-link">Urban Farming</router-link>
                 <router-link to="/blog/tanaman" class="nav-link">Tanaman</router-link>
-                <router-link to="/list-blog" class="nav-link">Blog</router-link>
+                <router-link to="/blog" class="nav-link">Blog</router-link>
                 <router-link to="/blog/about" class="nav-link">About</router-link>
             </div>
 
@@ -55,7 +55,6 @@ export default {
         if (window.scrollY > 5) {
             this.onScroll = true;
         } else {
-            console.log("tes")
             this.onScroll = false;
         }
         window.addEventListener('scroll', (data) => {

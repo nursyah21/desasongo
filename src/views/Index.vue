@@ -20,7 +20,7 @@ export default {
 </script>
 
 <template>
-  <navbar transparent_background="true"></navbar>
+  <navbar :transparent_background="true"></navbar>
   <!-- header -->
   <div class="h-screen w-full bg-[url('/banner.jpeg')] bg-cover">
     <div class="w-full h-full bg-[rgba(0,0,0,.4)]">
