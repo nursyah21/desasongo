@@ -7,3 +7,9 @@ export default {}
     <router-view />
   </div>
 </template>
+
+<style>
+* {
+  font-family: 'Montserrat', sans-serif;
+}
+</style>

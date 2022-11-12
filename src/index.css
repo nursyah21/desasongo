@@ -19,14 +19,45 @@
     @apply w-full ;
   }
   .btn-primary{
-    @apply px-6 py-2 font-medium tracking-wide text-white capitalize transition-colors duration-300 transform bg-green-600 rounded-md hover:bg-green-500 focus:outline-none focus:ring focus:ring-green-300 focus:ring-opacity-80;
+    @apply px-6 py-2 font-medium tracking-wide capitalize transition-transform duration-300 transform bg-gradient-to-r from-green-600 rounded-md to-green-500 hover:scale-110 focus:outline-none focus:ring focus:ring-green-300 focus:ring-opacity-80 text-white;
+  }
+  .btn-secondary{
+    @apply px-6 py-2 font-medium tracking-wide capitalize transition-transform duration-300 transform bg-white hover:scale-110 focus:outline-none focus:ring text-green-600 rounded-md;
   }
   .nav-link{
-    @apply  text-green-700 mx-3 duration-300 transform transition-colors ;
+    @apply relative ;
+  }
+  .nav-link.active{
+    @apply bg-green-500 px-6 py-2 rounded-lg;
+    color: white !important;
+  }
+  .nav-link::after {
+    content: "";
+    @apply absolute opacity-0 bottom-0 left-0 w-full h-[2px] bg-green-400 w-0 rounded-xl;
+    -webkit-transition: width .3s ease-in-out;
+    -moz-transition: width .3s ease-in-out;
+    -o-transition: width .3s ease-in-out;
+    transition: width .3s ease-in-out;
   }
   .nav-link:hover{
-    @apply text-green-600 underline;
+    @apply no-underline;
   }
+  .nav-link:hover::after {
+    @apply opacity-100 w-full;
+  }
+  .nav-link.active:hover::after {
+    @apply opacity-0;
+  }
+
+  .bg-white .nav-link, .bg-white a {
+    @apply text-black;
+  }
+
+  .bg-none .nav-link, .bg-none a {
+    @apply text-white;
+  }
+
+
   .btn-dropdown{
     @apply relative z-10 block p-2 text-gray-700 bg-white border rounded-md dark:text-white hover:border-blue-500; 
   }
