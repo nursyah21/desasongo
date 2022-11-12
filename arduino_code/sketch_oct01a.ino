@@ -28,6 +28,7 @@ void ision() { //pompa1 isi
 }
 void isioff() {
   pompaoff();
+  digitalWrite(pb1, LOW);
   pompa[0] = false;
 }
 void nutrision() { //pompa4 nutrisi
@@ -37,6 +38,7 @@ void nutrision() { //pompa4 nutrisi
 }
 void nutrisioff() {
   pompaoff();
+  digitalWrite(pk, LOW);
   pompa[3] = false;
 }
 void kurason() { //pompa2 kuras
@@ -46,6 +48,7 @@ void kurason() { //pompa2 kuras
 }
 void kurasoff() {
   pompaoff();
+  digitalWrite(pb2, LOW);
   pompa[1] = false;
 }
 void hidroponikon(){ //pompa3 hidroponik
@@ -55,6 +58,7 @@ void hidroponikon(){ //pompa3 hidroponik
 }
 void hidroponikoff(){
   pompaoff();
+  digitalWrite(pb3, LOW);
   pompa[2] = false;
 }
 
@@ -172,40 +176,80 @@ void loop()
 
 int stopauto = 0;
 void mode_auto_hidroponik(){
-  hidroponikon();
-  if (state == 0 && cm1 > jaraktarget){  /// ngisi air ///
-    if (cm1 > jaraktarget){
-      ision();
-    }
-    else if (cm1 < jaraktarget){
-      isioff();
-      state = 1;
-    }
-  }
-  else if (state == 1){ /// nutrisi ///
-    if (ppm < ppmtarget){
-      nutrision();
-    }
-    else if (ppm >= ppmtarget){
-      nutrisioff();
-      state = 2;
-    }
-  }
-  else if (state == 2){ /// kuras air///
-    if ((ppm < (ppmtarget-100))&&(cm1 > (40.00))){
-      kurasoff();
-      stopauto++;
-      if(stopauto == 10){
-        stopauto=0;
-        mode_auto = false;
+  //hidroponik off
+  digitalWrite(pb3, LOW);
+  pompa[2] = false;
+  switch(state){
+    case 0:{
+      if(cm3 < 20){
+        isioff();
+        state = 1;
+      }else{
+        ision();
       }
-      state=0;
+      break;
     }
-    else if ((ppm > (ppmtarget+100))||(cm1 < (10.00))){
-      kurason();
-      state=2;
+    case 1:{
+      if(ppm < ppmtarget){
+        digitalWrite(pk, HIGH);
+        pompa[3] = true;
+      }else{
+        digitalWrite(pk, LOW);
+        pompa[3] = false;
+        state = 2;
+      }
+      break;
+    }
+    case 2:{
+      if ((ppm < (ppmtarget-100))&&(cm3 > 20)){
+        kurasoff();
+        stopauto++;
+        if(stopauto == 10){
+          stopauto=0;
+          hidroponikon();
+          mode_auto = false;
+        }
+        state=0;
+      }
+      else if ((ppm > (ppmtarget+100)) || (cm3 < 12)){
+        kurason();
+        state=2;
+      }
+      break;
     }
   }
+  // if (state == 0){  /// ngisi air ///
+  //   if (cm3 < 20){
+  //     isioff();
+  //     state = 1;
+  //   }
+  //   else{
+  //     ision();
+  //   }
+  // }
+  // else if(state == 1){
+  //   nutrision();
+
+  //   if(ppm >= ppmtarget){
+  //     state = 2;
+  //     // nutrisioff();
+  //   }
+  // }
+  // else if (state == 2){ /// kuras air///
+  //   if ((ppm < (ppmtarget-100))&&(cm3 > 20)){
+  //     kurasoff();
+  //     stopauto++;
+  //     if(stopauto == 10){
+  //       stopauto=0;
+  //       mode_auto = false;
+  //     }
+  //     state=0;
+  //   }
+  //   else if ((ppm > (ppmtarget+100)) || (cm3 < 12)){
+  //     kurason();
+  //     state=2;
+  //   }
+  // }
 }
 
 String getValue(String data, char separator, int index){

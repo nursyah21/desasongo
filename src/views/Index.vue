@@ -1,5 +1,6 @@
 <script>
 import { Home, Navbar, Footer } from '../components';
+import utils from '../utils';
 
 export default {
   data() {
@@ -15,7 +16,7 @@ export default {
       window.location.href = `${window.location.origin}/#${id}`;
     },
   },
-  components: { Home, Navbar }
+  components: { Home, Navbar, Footer }
 }
 </script>
 

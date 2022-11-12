@@ -168,7 +168,7 @@ export default{
     },
     async refresh(){
       this.hidroponik.ppmvalid = true
-      if(this.hidroponik.ppm < 0 || this.hidroponik.ppm > 1500)return this.hidroponik.ppmvalid = false
+      //if(this.hidroponik.ppm < 0 || this.hidroponik.ppm > 1500)return this.hidroponik.ppmvalid = false
       
       this.loading = true
       await this.refreshHidroponik()
@@ -298,6 +298,15 @@ export default{
     },
     namePompa(idx){
       return ['isi','kuras','nutrisi','hidroponik'][idx]
+    },
+    valuePompa(i, idx){
+      var value = 100
+      if(i <= 5) value = 100
+      else{
+        value = (([63,20,34][idx]-i) * 100 / [63,20,34][idx]).toFixed(2)
+      }
+      if(value < 0) value = 0
+      return value
     }
   }
 }
@@ -339,7 +348,7 @@ export default{
         <!-- ultrasonik -->
         <div v-for="i,idx in hidroponik.ultrasonik" class="rounded-md p-2 m-2 w-36 sm:w-48 text-center bg-blue-500 text-white cursor-default">
           <span class="underline">tangki {{nameTangki(idx)}}</span><br>
-          {{(i <= 5)?100: (i / [60,24,34][idx]).toFixed(2)}} %
+          {{valuePompa(i, idx)}} %
         </div>
         <!-- tds -->
         <div class="border p-2 m-2 w-36 sm:w-48 text-center bg-blue-600 text-white cursor-default">
