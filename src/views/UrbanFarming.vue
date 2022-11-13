@@ -41,7 +41,7 @@ export default {
             </div>
         </div>
         <div class="mt-16">
-            <h1 class="w-1/4 text-center m-auto font-bold text-2xl mb-10">
+            <h1 class="w-full text-center m-auto font-bold text-2xl mb-10">
                 <span class="text-green-500 font-normal">Jenis</span> <span class="text-green-500">Tanaman</span>
             </h1>
             <div class="grid sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-7">
