@@ -22,7 +22,7 @@ const visited = async function(){
   }
 }
 
-const getDataIndex = async function(){
+const getDataIndex = async function(current:number){
   /** blog
    * {title:'mengenal desa songo',
   data:'Kampung ini dulunya agak kumuh dan kurang hijau, hingga tahun 2013 Bu Yaning terpilih sebagai ketua KT. Mengapa Bu Yaning mau menjadi RT karena Bu Yaning mempunyai misi yaitu bagaimana cara mengubah kampung ini menjadi bersih dan hijau...',
@@ -33,8 +33,13 @@ const getDataIndex = async function(){
   const blog:Array<any> = []
   
 
-  let blog_data = await supabase.from('blog').select('blog_id, release, title, link, preview_data').order('blog_id', {ascending: false}).then(e=>e.data)
-  blog_data?.forEach(e=>blog.push(e))
+  let blog_data = await supabase.from('blog').select('blog_id, release, data, title, link, preview_data').order('blog_id', {ascending: true}).range(current, current+5).then(e=>e.data)
+  blog_data?.forEach((e) => {
+    const element = document.createRange().createContextualFragment(e.data);
+    var img = element.querySelector('img');
+    e.img = img ? img.getAttribute('src') : null;
+    blog.push(e)
+  })
 
 
   return {blog}

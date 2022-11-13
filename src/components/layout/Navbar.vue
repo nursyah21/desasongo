@@ -1,48 +1,73 @@
 <template>
     <!-- navbar -->
-    <nav class="fixed w-full flex py-3 px-3 md:px-28 justify-between z-50 top-0 transition duration-300"
-        :class="{ 'bg-white': onScroll, 'bg-none': !onScroll }">
+    <nav class="fixed w-full z-50 top-0 overflow-hidden"
+        :class="{ 'bg-white transition duration-300': onScroll || !transparent_background || dropdown, 'border-b-[1px]': onScroll || !transparent_background || dropdown, 'bg-none': !onScroll && transparent_background && !dropdown}">
+        <div class="w-full lg:max-w-[1140px] md:max-w-[768px] flex justify-between mx-auto py-3 px-[15px]">
+            <a href="" class="flex items-center hover:no-underline">
+                <img src="/favicon.svg" alt="" class="w-[38px] mr-2">
+                <span class="text-base font-semibold">Desa <span class="text-green-400">Songo</span></span>
+            </a>
 
-        <a href="" class="flex items-center hover:no-underline">
-            <img src="/favicon.svg" alt="" class="w-[38px] mr-2">
-            <span class="text-base font-semibold">Desa <span class="text-green-400">Songo</span></span>
-        </a>
+            <div class="lg:flex hidden items-center text-base gap-x-10">
+                <router-link to="/" class="nav-link">Home</router-link>
+                <router-link to="/urban-farming" class="nav-link">Urban Farming</router-link>
+                <router-link to="/blog/tanaman" class="nav-link">Tanaman</router-link>
+                <router-link to="/blog" class="nav-link">Blog</router-link>
+                <router-link to="/blog/about" class="nav-link">About</router-link>
+            </div>
 
-        <div class="lg:flex hidden items-center text-base gap-x-10">
-            <a href="/" class="nav-link active">Home</a>
-            <a href="/blog/urban-farming" class="nav-link">Urban Farming</a>
-            <a href="/blog/tanaman" class="nav-link">Tanaman</a>
-            <a href="/list-blog" class="nav-link">Blog</a>
-            <a href="/blog/about" class="nav-link">About</a>
+            <!-- burger button -->
+            <button @click="dropdown = !dropdown" class="lg:hidden block px-2 rounded-lg bg-white">
+                <svg width="25px" height="25px" viewBox="0 0 15 15" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path fill-rule="evenodd" clip-rule="evenodd"
+                        d="M1.5 3C1.22386 3 1 3.22386 1 3.5C1 3.77614 1.22386 4 1.5 4H13.5C13.7761 4 14 3.77614 14 3.5C14 3.22386 13.7761 3 13.5 3H1.5ZM1 7.5C1 7.22386 1.22386 7 1.5 7H13.5C13.7761 7 14 7.22386 14 7.5C14 7.77614 13.7761 8 13.5 8H1.5C1.22386 8 1 7.77614 1 7.5ZM1 11.5C1 11.2239 1.22386 11 1.5 11H13.5C13.7761 11 14 11.2239 14 11.5C14 11.7761 13.7761 12 13.5 12H1.5C1.22386 12 1 11.7761 1 11.5Z"
+                        fill="currentColor" />
+                </svg>
+
+            </button>
         </div>
-
-        <!-- burger button -->
-        <button @click="dropdownFunc" class="lg:hidden block px-2 rounded-lg bg-white">
-            <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" viewBox="0 0 20 20">
-                <path
-                    d="M10 6a2 2 0 110-4 2 2 0 010 4zM10 12a2 2 0 110-4 2 2 0 010 4zM10 18a2 2 0 110-4 2 2 0 010 4z" />
-            </svg>
-        </button>
+        <div class="bg-white w-full">
+            <div class="bg-white w-full lg:max-w-[1140px] md:max-w-[768px] mx-auto px-[15px] transition-height text-sm font-semibold flex flex-col gap-y-4"
+                :class="{ 'max-h-0': !dropdown, 'max-h-[400px]': dropdown }">
+                <router-link to="/" class="mt-4 hover:no-underline nav-link-dropdown">Home</router-link>
+                <router-link to="/urban-farming" class="hover:no-underline nav-link-dropdown">Urban Farming
+                </router-link>
+                <router-link to="/blog/tanaman" class="hover:no-underline nav-link-dropdown">Tanaman</router-link>
+                <router-link to="/blog" class="hover:no-underline nav-link-dropdown">Blog</router-link>
+                <router-link to="/blog/about" class="hover:no-underline nav-link-dropdown mb-8">About</router-link>
+            </div>
+        </div>
     </nav>
-
-    <div v-show="dropdown" class="py-2 absolute z-50 bg-white w-full h-screen">
-        <a href="/" class="nav-link">Home</a><br class="my-1">
-        <a href="/blog/urban-farming" class="nav-link">Urban Farming</a><br class="my-1">
-        <a href="/blog/tanaman" class="nav-link">Tanaman</a><br class="my-1">
-        <a href="/list-blog" class="nav-link">Blog</a><br class="my-1">
-        <a href="/blog/about" class="nav-link">About</a>
-    </div>
 </template>
 <script>
 export default {
     name: "Navbar",
+    props: {
+        transparent_background: {
+            type: Boolean,
+            default: false,
+        },
+    },
     data() {
         return {
             dropdown: false,
             onScroll: false,
         }
     },
+    watch: {
+
+    },
     mounted() {
+        window.addEventListener('resize', (data) => {
+            if (window.innerWidth >= 1024) {
+                this.dropdown = false;
+            }
+        });
+        if (window.scrollY > 5) {
+            this.onScroll = true;
+        } else {
+            this.onScroll = false;
+        }
         window.addEventListener('scroll', (data) => {
             if (window.scrollY > 5) {
                 this.onScroll = true;
@@ -52,11 +77,7 @@ export default {
         });
     },
     method: {
-        dropdownFunc() {
-            alert('ah')
-            this.dropdown = !this.dropdown
-            if (this.dropdown) window.location.href = `${window.location.origin}/#body`;
-        }
+
     }
 }
 </script>

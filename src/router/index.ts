@@ -1,6 +1,7 @@
 import { createRouter, createWebHistory } from "vue-router";
 
 const router = createRouter({
+  linkActiveClass: "active",
   history: createWebHistory(),
   routes: [
     {
@@ -9,14 +10,19 @@ const router = createRouter({
       component: () => import('../views/Index.vue')
     },
     {
-      path: '/list-blog',
-      name:'listblog',
-      component: () => import('../views/ListBlog.vue')
+      path: '/urban-farming',
+      name:'UrbanFarming',
+      component: () => import('../views/UrbanFarming.vue')
     },
     {
       path: '/dashboard',
       name:'dashboard',
       component: () => import('../views/Dashboard.vue')
+    },
+    {
+      path: '/blog',
+      name: 'Blog',
+      component: () => import('../views/ListBlog.vue')
     },
     {
       path: '/blog/:id',
