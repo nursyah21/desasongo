@@ -55,6 +55,7 @@ void hidroponikon(){ //pompa3 hidroponik
   pompaoff();
   digitalWrite(pb3, HIGH);
   pompa[2] = true;
+  
 }
 void hidroponikoff(){
   pompaoff();
@@ -63,7 +64,7 @@ void hidroponikoff(){
 }
 
 void pompaoff(){
-  if(!mode_auto)return;
+  if(!mode_auto || mode_auto)return;
   digitalWrite(pk, LOW);
   digitalWrite(pb1, LOW);
   digitalWrite(pb2, LOW);
@@ -78,7 +79,7 @@ void setup() {
   pinMode(UltrasonikTrig1, OUTPUT);
   pinMode(UltrasonikTrig2, OUTPUT);
   pinMode(UltrasonikTrig3, OUTPUT);
-  pinMode(pb1, OUTPUT); //pompa1
+  pinMode(pb1, OUTPUT); //pom.replace('pompa3','p_nutrisi')pa1
   pinMode(pb2, OUTPUT); //pompa2
   pinMode(pb3, OUTPUT); //pompa3
   pinMode(pk, OUTPUT); //pompa4
@@ -133,7 +134,7 @@ void loop()
     String ppm = getValue(test,',',5); //ppm target
     mode_auto = (mode == "True") ? true:false;
     
-    if (test == "auto")mode_auto = true;
+    //if (test == "auto")mode_auto = true;
     
     
     ppmtarget = ppm.toInt();
@@ -157,7 +158,7 @@ void loop()
     //pompa2
     Serial.print(" || pompa2 = ");
     if(pompa[1])Serial.print("on"); else Serial.print("off");
-    //pompa3
+    //pompa3 //emg kebalik
     Serial.print(" || pompa3 = ");
     if(pompa[2])Serial.print("on"); else Serial.print("off");
     //pompa4
@@ -169,16 +170,16 @@ void loop()
     if(mode_auto)Serial.println("auto"); else Serial.println("manual");
   }
 
-  if(mode_auto)mode_auto_hidroponik();  
+  //if(mode_auto)mode_auto_hidroponik();  
   
-  delay(2000);
+  delay(500);
 }
 
 int stopauto = 0;
 void mode_auto_hidroponik(){
   //hidroponik off
-  digitalWrite(pb3, LOW);
-  pompa[2] = false;
+  hidroponikoff();
+
   switch(state){
     case 0:{
       if(cm3 < 20){
@@ -190,14 +191,12 @@ void mode_auto_hidroponik(){
       break;
     }
     case 1:{
-      if(ppm < ppmtarget){
-        digitalWrite(pk, HIGH);
-        pompa[3] = true;
-      }else{
-        digitalWrite(pk, LOW);
-        pompa[3] = false;
+      if(ppm >= ppmtarget){
+        nutrisioff();
         state = 2;
-      }
+      }else{
+        nutrision();
+      } 
       break;
     }
     case 2:{

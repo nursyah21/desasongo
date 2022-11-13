@@ -168,7 +168,7 @@ export default{
     },
     async refresh(){
       this.hidroponik.ppmvalid = true
-      //if(this.hidroponik.ppm < 0 || this.hidroponik.ppm > 1500)return this.hidroponik.ppmvalid = false
+      if(this.hidroponik.ppm < 0 || this.hidroponik.ppm > 1500)return this.hidroponik.ppmvalid = false
       
       this.loading = true
       await this.refreshHidroponik()

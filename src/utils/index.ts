@@ -4,7 +4,7 @@ import { v4 as uuidv4 } from 'uuid';
 
 const visited = async function(){
   const {data, error} = await supabase.from('visited').select().match({time: new Date().toDateString()})
-    
+  
   if (error) return console.log(error)
   const prevcount = (data[0] === undefined) ? 0 : data[0].counts
 
