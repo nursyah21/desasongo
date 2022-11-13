@@ -11,7 +11,7 @@ module.exports = {
       },
       backgroundImage:{
         'banner': "url('/assets/banner.jpeg')"
-      }
+      },
     },
   },
   plugins: [

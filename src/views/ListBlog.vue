@@ -36,13 +36,13 @@ export default {
 
 <template>
   <navbar></navbar>
-  <div class="w-full h-[400px] bg-[url('img7.webp')] bg-cover bg-center mt-16">
+  <div class="w-full h-[400px] bg-[url('/gallery_ss3.webp')] bg-cover bg-center mt-16">
     <div class="w-full h-full bg-[rgba(0,0,0,.6)]">
       <div class="w-full h-full lg:max-w-[1140px] md:max-w-[768px] px-[15px] mx-auto flex items-center">
         <span class="text-white text-4xl font-extrabold leading-[43px]">Semua Berita,<br>
           Cerita, Suara,<br>
           dan wawasan dari<br>
-          Desa <span class="text-green-500">Songo</span></span>
+          Kampung <span class="text-green-500">Songo</span></span>
       </div>
     </div>
   </div>
