@@ -1,24 +1,3 @@
-<script>
-import { Home, Navbar, Footer } from '../components';
-
-export default {
-  data() {
-    return {
-
-    };
-  },
-  methods: {
-    readMore(id) {
-      window.location.href = `${window.location.origin}/#${id}`;
-    },
-    openNewTab(link) {
-      window.open(link);
-    }
-  },
-  components: { Home, Navbar, Footer }
-}
-</script>
-
 <template>
   <navbar></navbar>
   <div class="w-full h-[400px] bg-[url('img7.webp')] bg-cover bg-center mt-16">
@@ -54,21 +33,63 @@ export default {
     </div>
   </div>
   <!-- body -->
-  <div id="body" class="w-full lg:max-w-[1140px] md:max-w-[768px] px-[15px] mx-auto mt-32 mb-16">
+  <div id="body" class="w-full lg:max-w-[1140px] md:max-w-[768px] px-[15px] mx-auto mt-16 mb-16">
     <h1 class="title">Semua Artikel</h1>
-    <a class="no-underline text-black hover:no-underline transition-transform duration-300 cursor-pointer bg-white rounded-lg border shadow-lg w-full sm:h-[240px] hover:scale-105 flex flex-col-reverse sm:flex-row justify-between mb-6">
+    <a v-for="data in blogs"
+      class="no-underline text-black hover:no-underline transition-transform duration-300 cursor-pointer bg-white rounded-lg border shadow-lg w-full sm:h-[240px] hover:scale-105 flex flex-col-reverse sm:flex-row justify-between mb-6">
       <div class="sm:w-1/2 p-10">
-        <h1 class="font-semibold text-xl sm:text-lg md:text-xl tracking-wide mb-3">Bisnis Katering Versus Jegalan Pandemi</h1>
-        <p class="tracking-wide text-sm mb-5 sm:mb-3 md:mb-5">Seakan ingin melahap semua hal, pandemi Covid-19 juga menyambangi para
-          pelaku bisnis katering. Dilansir...</p>
-        <p class="text-gray-400 sm:text-sm md:text-base">10 November 2022</p>
+        <h1 class="font-semibold text-xl sm:text-lg md:text-xl tracking-wide mb-3 line-clamp-2">{{ data.title }}</h1>
+        <p class="tracking-wide text-sm mb-5 sm:mb-3 md:mb-5 line-clamp-3">{{ data.preview_data }}</p>
+        <p class="text-gray-400 sm:text-sm md:text-base">{{ data.release }}</p>
       </div>
-      <div class="sm:w-1/2">
-        <img class="w-full h-full object-cover object-center rounded-r-lg" src="sayuran.jpg" alt="">
+      <div class="sm:w-1/2 bg-gradient-to-r from-green-600 to-green-500 flex items-center justify-center rounded-r-lg">
+        <img v-if="data.img" class="w-full h-full object-cover object-center rounded-r-lg" :src="data.img" alt="">
+        <p v-else class="text-white text-lg font-bold tracking-wide">No Image</p>
       </div>
     </a>
-    <button class="border-green-500 border rounded-md p-3 text-green-500 text-sm block m-auto hover:scale-105 transition-transform transition-transform duration-300">Muat lebih banyak</button>
+    <button v-if="!loading" @click="getData()"
+      class="border-green-500 border rounded-md p-3 text-green-500 text-sm block m-auto hover:scale-105 transition-transform transition-transform duration-300">Muat
+      lebih banyak</button>
+    <div v-if="loading" class="flex justify-center items-center">
+      <div class="spinner-border animate-spin inline-block w-8 h-8 border-4 rounded-full" role="status">
+        <!-- <span class="visually-hidden">Loading...</span> -->
+      </div>
+    </div>
   </div>
   <!-- footer -->
   <Footer></Footer>
 </template>
+<script>
+import { Home, Navbar, Footer } from '../components';
+import utils from '../utils';
+export default {
+  data() {
+    return {
+      loading: false,
+      blogs: [],
+    };
+  },
+  mounted() {
+    this.getData();
+  },
+  methods: {
+    getData() {
+      this.loading = true;
+      utils.getDataIndex(this.blogs.length).then(response => {
+        let blogs = response.blog;
+        blogs.forEach((data) => {
+          this.blogs.push(data);
+        })
+        this.loading = false;
+      })
+    },
+    readMore(id) {
+      window.location.href = `${window.location.origin}/#${id}`;
+    },
+    openNewTab(link) {
+      window.open(link);
+    }
+  },
+  components: { Home, Navbar, Footer }
+}
+</script>

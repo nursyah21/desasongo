@@ -10,6 +10,7 @@
   },
   "dependencies": {
     "@supabase/supabase-js": "^1.35.6",
+    "@tailwindcss/line-clamp": "^0.4.2",
     "bcryptjs": "^2.4.3",
     "uuid": "^9.0.0",
     "vue": "^3.2.37",

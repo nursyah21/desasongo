@@ -52,6 +52,9 @@
     @apply bg-green-500 px-6 py-2 rounded-lg;
     color: white !important;
   }
+  .nav-link-dropdown.active{
+    @apply text-green-500;
+  }
   .nav-link::after {
     content: "";
     @apply absolute opacity-0 bottom-0 left-0 w-full h-[2px] bg-green-400 w-0 rounded-xl;
@@ -97,5 +100,9 @@
   }
   .dot-custom.active {
     @apply bg-green-500 cursor-default;
+  }
+
+  .transition-height {
+    transition: max-height 0.3s ease-in;
   }
 }
