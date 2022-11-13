@@ -71,7 +71,7 @@ export default {
     </div>
   </div>
   <!-- virtual tour -->
-  <div class="bg-[url('./virtual-tour.jpg')] bg-cover bg-center w-full h-[500px] mt-16">
+  <div class="bg-[url('/virtual-tour.jpg')] bg-cover bg-center w-full h-[500px] mt-16">
     <div class="flex items-center justify-center h-full backdrop-brightness-50">
       <div class="flex-column text-center px-[15px]">
         <p class="text-lg text-green-400 font-bold">
