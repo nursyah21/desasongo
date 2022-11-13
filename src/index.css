@@ -57,7 +57,7 @@
   }
   .nav-link::after {
     content: "";
-    @apply absolute opacity-0 bottom-0 left-0 w-full h-[2px] bg-green-400 w-0 rounded-xl;
+    @apply absolute opacity-0 bottom-0 left-0 w-full h-[2px] bg-green-400 rounded-xl;
     -webkit-transition: width .3s ease-in-out;
     -moz-transition: width .3s ease-in-out;
     -o-transition: width .3s ease-in-out;

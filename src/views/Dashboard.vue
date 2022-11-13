@@ -34,6 +34,7 @@ export default{
         mode: true, //write
         ppm: 0, //write 0-1500
         ppmvalid: true,
+        time_auto: 0
       },
       stats:{
         blog: true,
@@ -168,7 +169,7 @@ export default{
     },
     async refresh(){
       this.hidroponik.ppmvalid = true
-      if(this.hidroponik.ppm < 0 || this.hidroponik.ppm > 1500)return this.hidroponik.ppmvalid = false
+      // if(this.hidroponik.ppm < 0 || this.hidroponik.ppm > 1500)return this.hidroponik.ppmvalid = false
       
       this.loading = true
       await this.refreshHidroponik()
@@ -235,7 +236,8 @@ export default{
           pompa1: this.hidroponik.pompa[0],
           pompa2: this.hidroponik.pompa[1],
           pompa3: this.hidroponik.pompa[2],
-          pompa4: this.hidroponik.pompa[3]
+          pompa4: this.hidroponik.pompa[3],
+          time_auto: this.hidroponik.time_auto
         }
 
         let error = await supabase.from('hidroponik').update(data).match({'id_hidroponik':1}).then(e=>e.error)
@@ -273,6 +275,7 @@ export default{
           this.hidroponik.pompa[1] = e.pompa2
           this.hidroponik.pompa[2] = e.pompa3
           this.hidroponik.pompa[3] = e.pompa4
+          this.hidroponik.time_auto = e.time_auto
         })
         // console.log(data)
       }).subscribe()
@@ -369,6 +372,11 @@ export default{
         <div class="rounded-md p-2 m-2 w-36 sm:w-48 text-center bg-lime-600 text-white cursor-pointer">
           <span class="underline">ppm (0-1500)</span><br>
           <input @click="refreshStatus = 'async'" type="number" v-model="hidroponik.ppm"  class="bg-lime-600 text-center outline-none border w-24" min="0" max="1500">
+        </div>
+        <!-- time auto -->
+        <div class="rounded-md p-2 m-2 w-36 sm:w-48 text-center bg-lime-600 text-white cursor-pointer">
+          <span class="underline">time auto (0-23)</span><br>
+          <input @click="refreshStatus = 'async'" type="number" v-model="hidroponik.time_auto"  class="bg-lime-600 text-center outline-none border w-24" min="0" max="1500">
         </div>
 
       </div>
