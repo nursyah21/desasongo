@@ -1,11 +1,15 @@
 <script>
 import { Home, Navbar, Footer } from '../components';
+import utils from '../utils';
 
 export default {
   data() {
     return {
-
+      dropdown: false
     };
+  },
+  mounted(){
+    utils.visited()
   },
   methods: {
     readMore(id) {
@@ -52,9 +56,9 @@ export default {
       <div class="mt-16 md:mt-0">
         <h1 class="title"><span class="text-green-500">Profile</span> <span class="text-green-500 font-normal">Desa Songo</span></h1>
         <div class="w-full flex overflow-x-scroll gap-x-5 pb-1 mb-3">
-          <img src="img3.png" class="rounded-lg w-1/2" />
-          <img src="img4.png" class="rounded-lg w-1/2" />
-          <img src="img5.jpg" class="rounded-lg w-1/2" />
+          <img src="/img3.png" class="rounded-lg w-1/2" />
+          <img src="/img4.png" class="rounded-lg w-1/2" />
+          <img src="/img5.jpg" class="rounded-lg w-1/2" />
         </div>
         <p class="md:text-justify text-sm">
           <span class="text-green-500">Desa Songo</span> adalah sebutan lain dari <span class="text-green-500">Kampung
@@ -67,7 +71,7 @@ export default {
     </div>
   </div>
   <!-- virtual tour -->
-  <div class="bg-[url('./virtual-tour.jpg')] bg-cover bg-center w-full h-[500px] mt-16">
+  <div class="bg-[url('/virtual-tour.jpg')] bg-cover bg-center w-full h-[500px] mt-16">
     <div class="flex items-center justify-center h-full backdrop-brightness-50">
       <div class="flex-column text-center px-[15px]">
         <p class="text-lg text-green-400 font-bold">

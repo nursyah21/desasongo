@@ -28,6 +28,7 @@ void ision() { //pompa1 isi
 }
 void isioff() {
   pompaoff();
+  digitalWrite(pb1, LOW);
   pompa[0] = false;
 }
 void nutrision() { //pompa4 nutrisi
@@ -37,6 +38,7 @@ void nutrision() { //pompa4 nutrisi
 }
 void nutrisioff() {
   pompaoff();
+  digitalWrite(pk, LOW);
   pompa[3] = false;
 }
 void kurason() { //pompa2 kuras
@@ -46,20 +48,23 @@ void kurason() { //pompa2 kuras
 }
 void kurasoff() {
   pompaoff();
+  digitalWrite(pb2, LOW);
   pompa[1] = false;
 }
 void hidroponikon(){ //pompa3 hidroponik
   pompaoff();
   digitalWrite(pb3, HIGH);
   pompa[2] = true;
+  
 }
 void hidroponikoff(){
   pompaoff();
+  digitalWrite(pb3, LOW);
   pompa[2] = false;
 }
 
 void pompaoff(){
-  if(!mode_auto)return;
+  if(!mode_auto || mode_auto)return;
   digitalWrite(pk, LOW);
   digitalWrite(pb1, LOW);
   digitalWrite(pb2, LOW);
@@ -74,7 +79,7 @@ void setup() {
   pinMode(UltrasonikTrig1, OUTPUT);
   pinMode(UltrasonikTrig2, OUTPUT);
   pinMode(UltrasonikTrig3, OUTPUT);
-  pinMode(pb1, OUTPUT); //pompa1
+  pinMode(pb1, OUTPUT); //pom.replace('pompa3','p_nutrisi')pa1
   pinMode(pb2, OUTPUT); //pompa2
   pinMode(pb3, OUTPUT); //pompa3
   pinMode(pk, OUTPUT); //pompa4
@@ -129,7 +134,7 @@ void loop()
     String ppm = getValue(test,',',5); //ppm target
     mode_auto = (mode == "True") ? true:false;
     
-    if (test == "auto")mode_auto = true;
+    //if (test == "auto")mode_auto = true;
     
     
     ppmtarget = ppm.toInt();
@@ -153,7 +158,7 @@ void loop()
     //pompa2
     Serial.print(" || pompa2 = ");
     if(pompa[1])Serial.print("on"); else Serial.print("off");
-    //pompa3
+    //pompa3 //emg kebalik
     Serial.print(" || pompa3 = ");
     if(pompa[2])Serial.print("on"); else Serial.print("off");
     //pompa4
@@ -165,47 +170,85 @@ void loop()
     if(mode_auto)Serial.println("auto"); else Serial.println("manual");
   }
 
-  if(mode_auto)mode_auto_hidroponik();  
+  //if(mode_auto)mode_auto_hidroponik();  
   
-  delay(2000);
+  delay(500);
 }
 
 int stopauto = 0;
 void mode_auto_hidroponik(){
-  hidroponikon();
-  if (state == 0 && cm1 > jaraktarget){  /// ngisi air ///
-    if (cm1 > jaraktarget){
-      ision();
-    }
-    else if (cm1 < jaraktarget){
-      isioff();
-      state = 1;
-    }
-  }
-  else if (state == 1){ /// nutrisi ///
-    if (ppm < ppmtarget){
-      nutrision();
-    }
-    else if (ppm >= ppmtarget){
-      nutrisioff();
-      state = 2;
-    }
-  }
-  else if (state == 2){ /// kuras air///
-    if ((ppm < (ppmtarget-100))&&(cm1 > (40.00))){
-      kurasoff();
-      stopauto++;
-      if(stopauto == 10){
-        stopauto=0;
-        mode_auto = false;
+  //hidroponik off
+  hidroponikoff();
+
+  switch(state){
+    case 0:{
+      if(cm3 < 20){
+        isioff();
+        state = 1;
+      }else{
+        ision();
       }
-      state=0;
+      break;
     }
-    else if ((ppm > (ppmtarget+100))||(cm1 < (10.00))){
-      kurason();
-      state=2;
+    case 1:{
+      if(ppm >= ppmtarget){
+        nutrisioff();
+        state = 2;
+      }else{
+        nutrision();
+      } 
+      break;
+    }
+    case 2:{
+      if ((ppm < (ppmtarget-100))&&(cm3 > 20)){
+        kurasoff();
+        stopauto++;
+        if(stopauto == 10){
+          stopauto=0;
+          hidroponikon();
+          mode_auto = false;
+        }
+        state=0;
+      }
+      else if ((ppm > (ppmtarget+100)) || (cm3 < 12)){
+        kurason();
+        state=2;
+      }
+      break;
     }
   }
+  // if (state == 0){  /// ngisi air ///
+  //   if (cm3 < 20){
+  //     isioff();
+  //     state = 1;
+  //   }
+  //   else{
+  //     ision();
+  //   }
+  // }
+  // else if(state == 1){
+  //   nutrision();
+
+  //   if(ppm >= ppmtarget){
+  //     state = 2;
+  //     // nutrisioff();
+  //   }
+  // }
+  // else if (state == 2){ /// kuras air///
+  //   if ((ppm < (ppmtarget-100))&&(cm3 > 20)){
+  //     kurasoff();
+  //     stopauto++;
+  //     if(stopauto == 10){
+  //       stopauto=0;
+  //       mode_auto = false;
+  //     }
+  //     state=0;
+  //   }
+  //   else if ((ppm > (ppmtarget+100)) || (cm3 < 12)){
+  //     kurason();
+  //     state=2;
+  //   }
+  // }
 }
 
 String getValue(String data, char separator, int index){
