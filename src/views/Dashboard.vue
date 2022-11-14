@@ -257,6 +257,7 @@ export default{
         this.hidroponik.pompa[1] = e.pompa2
         this.hidroponik.pompa[2] = e.pompa3
         this.hidroponik.pompa[3] = e.pompa4
+        this.hidroponik.time_auto = e.time_auto
       })
     },
     realtimeHidroponik (){
@@ -306,9 +307,9 @@ export default{
       var value = 100
       if(i <= 5) value = 100
       else{
-        value = (([63,20,34][idx]-i) * 100 / [63,20,34][idx]).toFixed(2)
+        value = (([64,21,34][idx]-i) * 100 / [64,21,34][idx]).toFixed(2)
       }
-      if(value < 0) value = 0
+      if(value <= 0) value = 0
       return value
     }
   }
@@ -370,12 +371,12 @@ export default{
         </div>
         <!-- ppm w -->
         <div class="rounded-md p-2 m-2 w-36 sm:w-48 text-center bg-lime-600 text-white cursor-pointer">
-          <span class="underline">ppm (0-1500)</span><br>
+          <span class="underline">ppm target (0-1500)</span><br>
           <input @click="refreshStatus = 'async'" type="number" v-model="hidroponik.ppm"  class="bg-lime-600 text-center outline-none border w-24" min="0" max="1500">
         </div>
         <!-- time auto -->
         <div class="rounded-md p-2 m-2 w-36 sm:w-48 text-center bg-lime-600 text-white cursor-pointer">
-          <span class="underline">time auto (0-23)</span><br>
+          <span class="underline">jam auto (0-23)</span><br>
           <input @click="refreshStatus = 'async'" type="number" v-model="hidroponik.time_auto"  class="bg-lime-600 text-center outline-none border w-24" min="0" max="1500">
         </div>
 
