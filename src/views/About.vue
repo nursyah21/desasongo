@@ -7,6 +7,10 @@ export default {
 
         };
     },
+    mounted() {
+        document.body.scrollTop = 0; // For Safari
+        document.documentElement.scrollTop = 0;
+    },
     methods: {
         readMore(id) {
             window.location.href = `${window.location.origin}/#${id}`;
@@ -57,17 +61,22 @@ export default {
         </div>
         <div class="mt-16">
             <h1 class="w-full text-center m-auto font-bold text-2xl mb-10">
-                <span class="text-green-500 font-normal">Penghargaan</span> <span class="text-green-500">Kampung Songo</span>
+                <span class="text-green-500 font-normal">Penghargaan</span> <span class="text-green-500">Kampung
+                    Songo</span>
             </h1>
             <div class="grid sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-7">
-                <div class="grid grid-cols-2 h-[100px] sm:h-[280px] bg-green-600 rounded-lg transition-transform duration-300 hover:scale-105">
-                    <div class="text-white text-xs sm:text-sm px-3 text-center font-bold w-full h-full flex items-center justify-center">
+                <div
+                    class="grid grid-cols-2 h-[100px] sm:h-[280px] bg-green-600 rounded-lg transition-transform duration-300 hover:scale-105">
+                    <div
+                        class="text-white text-xs sm:text-sm px-3 text-center font-bold w-full h-full flex items-center justify-center">
                         <h1>Penghargaan Lomba Merdeka Dari Sampah 2015 : Kategori Kampung Pemilahan Sampah Terbaik</h1>
                     </div>
                     <div class="bg-[url('/penghargaan1.jpg')] bg-cover bg-center rounded-r-lg"></div>
                 </div>
-                <div class="grid grid-cols-2 h-[100px] sm:h-[280px] bg-amber-500 rounded-lg transition-transform duration-300 hover:scale-105">
-                    <div class="text-white text-xs sm:text-sm px-3 text-center font-bold w-full h-full flex items-center justify-center">
+                <div
+                    class="grid grid-cols-2 h-[100px] sm:h-[280px] bg-amber-500 rounded-lg transition-transform duration-300 hover:scale-105">
+                    <div
+                        class="text-white text-xs sm:text-sm px-3 text-center font-bold w-full h-full flex items-center justify-center">
                         <h1>Penghargaan Lomba Merdeka Dari Sampah 2017 : Kategori Kampung Partisipasi Terbaik</h1>
                     </div>
                     <div class="bg-[url('/penghargaan3.jpg')] bg-cover bg-center rounded-r-lg"></div>

@@ -11,7 +11,7 @@
             <div class="lg:flex hidden items-center text-base gap-x-10">
                 <router-link to="/" class="nav-link">Home</router-link>
                 <router-link to="/urban-farming" class="nav-link">Urban Farming</router-link>
-                <router-link to="/blog/tanaman" class="nav-link">Tanaman</router-link>
+                <router-link to="/tanaman" class="nav-link">Tanaman</router-link>
                 <router-link to="/blog" class="nav-link">Blog</router-link>
                 <router-link to="/about" class="nav-link">About</router-link>
             </div>
@@ -32,7 +32,7 @@
                 <router-link to="/" class="mt-4 hover:no-underline nav-link-dropdown">Home</router-link>
                 <router-link to="/urban-farming" class="hover:no-underline nav-link-dropdown">Urban Farming
                 </router-link>
-                <router-link to="/blog/tanaman" class="hover:no-underline nav-link-dropdown">Tanaman</router-link>
+                <router-link to="/tanaman" class="hover:no-underline nav-link-dropdown">Tanaman</router-link>
                 <router-link to="/blog" class="hover:no-underline nav-link-dropdown">Blog</router-link>
                 <router-link to="/about" class="hover:no-underline nav-link-dropdown mb-8">About</router-link>
             </div>

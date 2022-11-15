@@ -7,6 +7,10 @@ export default {
 
         };
     },
+    mounted() {
+        document.body.scrollTop = 0; // For Safari
+        document.documentElement.scrollTop = 0;
+    },
     methods: {
         readMore(id) {
             window.location.href = `${window.location.origin}/#${id}`;
@@ -45,39 +49,45 @@ export default {
                 <span class="text-green-500 font-normal">Jenis</span> <span class="text-green-500">Tanaman</span>
             </h1>
             <div class="grid sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-7">
-                <div class="grid grid-cols-2 h-[100px] sm:h-[280px] bg-red-500 rounded-lg transition-transform duration-300 hover:scale-105">
+                <div
+                    class="grid grid-cols-2 h-[100px] sm:h-[280px] bg-red-500 rounded-lg transition-transform duration-300 hover:scale-105">
                     <div class="text-white text-2xl font-bold w-full h-full flex items-center justify-center">
                         <h1>Buah</h1>
                     </div>
                     <div class="bg-[url('/buah.jpg')] bg-cover bg-center rounded-r-lg"></div>
                 </div>
-                <div class="grid grid-cols-2 h-[100px] sm:h-[280px] bg-green-400 rounded-lg transition-transform duration-300 hover:scale-105">
+                <div
+                    class="grid grid-cols-2 h-[100px] sm:h-[280px] bg-green-400 rounded-lg transition-transform duration-300 hover:scale-105">
                     <div class="text-white text-2xl font-bold w-full h-full flex items-center justify-center">
                         <h1>Sayur</h1>
                     </div>
                     <div class="bg-[url('/sayuran.jpg')] bg-cover bg-center rounded-r-lg"></div>
                 </div>
-                <div class="grid grid-cols-2 h-[100px] sm:h-[280px] bg-amber-400 rounded-lg transition-transform duration-300 hover:scale-105">
+                <div
+                    class="grid grid-cols-2 h-[100px] sm:h-[280px] bg-amber-400 rounded-lg transition-transform duration-300 hover:scale-105">
                     <div class="text-white text-2xl font-bold w-full h-full flex items-center justify-center">
                         <h1>Jamur</h1>
                     </div>
                     <div class="bg-[url('/jamur.jpg')] bg-cover bg-center rounded-r-lg"></div>
                 </div>
-                <div class="grid grid-cols-2 h-[100px] sm:h-[280px] bg-green-600 rounded-lg transition-transform duration-300 hover:scale-105">
+                <div
+                    class="grid grid-cols-2 h-[100px] sm:h-[280px] bg-green-600 rounded-lg transition-transform duration-300 hover:scale-105">
                     <div class="text-white text-2xl font-bold w-full h-full flex items-center justify-center">
-                        <h1>Tanaman<br/>Obat</h1>
+                        <h1>Tanaman<br />Obat</h1>
                     </div>
                     <div class="bg-[url('/tanaman-obat.jpg')] bg-cover bg-center rounded-r-lg"></div>
                 </div>
-                <div class="grid grid-cols-2 h-[100px] sm:h-[280px] bg-orange-500 rounded-lg transition-transform duration-300 hover:scale-105">
+                <div
+                    class="grid grid-cols-2 h-[100px] sm:h-[280px] bg-orange-500 rounded-lg transition-transform duration-300 hover:scale-105">
                     <div class="text-white text-2xl font-bold w-full h-full flex items-center justify-center">
-                        <h1>Umbi<br/>Umbian</h1>
+                        <h1>Umbi<br />Umbian</h1>
                     </div>
                     <div class="bg-[url('/umbi.jpg')] bg-cover bg-center rounded-r-lg"></div>
                 </div>
-                <div class="grid grid-cols-2 h-[100px] sm:h-[280px] bg-green-800 rounded-lg transition-transform duration-300 hover:scale-105">
+                <div
+                    class="grid grid-cols-2 h-[100px] sm:h-[280px] bg-green-800 rounded-lg transition-transform duration-300 hover:scale-105">
                     <div class="text-white text-2xl font-bold w-full h-full flex items-center justify-center">
-                        <h1>Tanaman<br/>Hias</h1>
+                        <h1>Tanaman<br />Hias</h1>
                     </div>
                     <div class="bg-[url('/tanaman-hias.jpg')] bg-cover bg-center rounded-r-lg"></div>
                 </div>

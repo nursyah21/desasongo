@@ -9,6 +9,8 @@ export default {
     };
   },
   mounted() {
+    document.body.scrollTop = 0; // For Safari
+    document.documentElement.scrollTop = 0;
     utils.visited()
   },
   methods: {
@@ -63,7 +65,8 @@ export default {
           <img src="/img5.jpg" class="rounded-lg w-1/2" />
         </div>
         <p class="md:text-justify text-sm">
-          <span class="text-green-500">Kampung Songo</span> adalah sebutan lain dari <span class="text-green-500">Kampung
+          <span class="text-green-500">Kampung Songo</span> adalah sebutan lain dari <span
+            class="text-green-500">Kampung
             Sayur Simo</span> yang berlokasi di Simomulyo Baru, RT 09 RW 03,
           Kelurahan Simomulyo Baru, Kecamatan Sukomanunggal, Surabaya.<br /><br /> Penduduk pada kampung ini berhasil
           mengubah
@@ -75,42 +78,36 @@ export default {
       </div>
     </div>
   </div>
-  <!-- <section class="overflow-hidden text-gray-700">
+  <section class="overflow-hidden text-gray-700">
     <div class="w-full lg:max-w-[1140px] md:max-w-[768px] px-[15px] mx-auto pt-16">
-      <h1 class="title"><span class="text-green-500">Gallery</span> <span
-          class="text-green-500 font-normal">Kampung Songo</span></h1>
+      <h1 class="title"><span class="text-green-500">Gallery</span> <span class="text-green-500 font-normal">Kampung
+          Songo</span></h1>
       <div class="flex flex-wrap -m-1 md:-m-2">
         <div class="flex flex-wrap w-1/2">
           <div class="w-1/2 p-1 md:p-2">
-            <img alt="gallery" class="block object-cover object-center w-full h-full rounded-lg"
-              src="penghargaan2.jpg">
+            <img alt="gallery" class="block object-cover object-center w-full h-full rounded-lg" src="penghargaan2.jpg">
           </div>
           <div class="w-1/2 p-1 md:p-2">
-            <img alt="gallery" class="block object-cover object-center w-full h-full rounded-lg"
-              src="penghargaan4.jpg">
+            <img alt="gallery" class="block object-cover object-center w-full h-full rounded-lg" src="penghargaan4.jpg">
           </div>
           <div class="w-full p-1 md:p-2">
-            <img alt="gallery" class="block object-cover object-center w-full h-full rounded-lg"
-              src="gallery_ss2.webp">
+            <img alt="gallery" class="block object-cover object-center w-full h-full rounded-lg" src="gallery_ss2.webp">
           </div>
         </div>
         <div class="flex flex-wrap w-1/2">
           <div class="w-full p-1 md:p-2">
-            <img alt="gallery" class="block object-cover object-center w-full h-full rounded-lg"
-              src="img8.webp">
+            <img alt="gallery" class="block object-cover object-center w-full h-full rounded-lg" src="img8.webp">
           </div>
           <div class="w-1/2 p-1 md:p-2">
-            <img alt="gallery" class="block object-cover object-center w-full h-full rounded-lg"
-              src="gallery3.jpg">
+            <img alt="gallery" class="block object-cover object-center w-full h-full rounded-lg" src="gallery3.jpg">
           </div>
           <div class="w-1/2 p-1 md:p-2">
-            <img alt="gallery" class="block object-cover object-center w-full h-full rounded-lg"
-              src="gallery4.jpg">
+            <img alt="gallery" class="block object-cover object-center w-full h-full rounded-lg" src="gallery4.jpg">
           </div>
         </div>
       </div>
     </div>
-  </section> -->
+  </section>
   <!-- virtual tour -->
   <div class="bg-[url('/virtual-tour.jpg')] bg-cover bg-center w-full h-[500px] mt-16">
     <div class="flex items-center justify-center h-full backdrop-brightness-50">
