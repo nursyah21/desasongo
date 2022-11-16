@@ -85,24 +85,24 @@ export default {
       <div class="flex flex-wrap -m-1 md:-m-2">
         <div class="flex flex-wrap w-1/2">
           <div class="w-1/2 p-1 md:p-2">
-            <img alt="gallery" class="block object-cover object-center w-full h-full rounded-lg" src="penghargaan2.jpg">
+            <img alt="gallery" class="block object-cover object-center w-full h-full rounded-lg" src="/penghargaan2.jpg">
           </div>
           <div class="w-1/2 p-1 md:p-2">
-            <img alt="gallery" class="block object-cover object-center w-full h-full rounded-lg" src="penghargaan4.jpg">
+            <img alt="gallery" class="block object-cover object-center w-full h-full rounded-lg" src="/penghargaan4.jpg">
           </div>
           <div class="w-full p-1 md:p-2">
-            <img alt="gallery" class="block object-cover object-center w-full h-full rounded-lg" src="gallery_ss2.webp">
+            <img alt="gallery" class="block object-cover object-center w-full h-full rounded-lg" src="/gallery_ss2.webp">
           </div>
         </div>
         <div class="flex flex-wrap w-1/2">
           <div class="w-full p-1 md:p-2">
-            <img alt="gallery" class="block object-cover object-center w-full h-full rounded-lg" src="img8.webp">
+            <img alt="gallery" class="block object-cover object-center w-full h-full rounded-lg" src="/img8.webp">
           </div>
           <div class="w-1/2 p-1 md:p-2">
-            <img alt="gallery" class="block object-cover object-center w-full h-full rounded-lg" src="gallery3.jpg">
+            <img alt="gallery" class="block object-cover object-center w-full h-full rounded-lg" src="/gallery3.jpg">
           </div>
           <div class="w-1/2 p-1 md:p-2">
-            <img alt="gallery" class="block object-cover object-center w-full h-full rounded-lg" src="gallery4.jpg">
+            <img alt="gallery" class="block object-cover object-center w-full h-full rounded-lg" src="/gallery4.jpg">
           </div>
         </div>
       </div>
