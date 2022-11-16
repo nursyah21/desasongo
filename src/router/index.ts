@@ -15,9 +15,14 @@ const router = createRouter({
       component: () => import('../views/UrbanFarming.vue')
     },
     {
-      path: '/dashboard',
-      name:'dashboard',
-      component: () => import('../views/Dashboard.vue')
+      path: '/tanaman',
+      name:'Tanaman',
+      component: () => import('../views/Tanaman.vue')
+    },
+    {
+      path: '/tanaman/:category',
+      name:'TanamanPerCategory',
+      component: () => import('../views/TanamanPerCategory.vue')
     },
     {
       path: '/blog',
@@ -26,13 +31,28 @@ const router = createRouter({
     },
     {
       path: '/blog/:id',
-      name: 'blog',
+      name: 'blog_by_id',
       component: () => import('../views/Blog.vue')
+    },
+    {
+      path: '/about',
+      name:'About',
+      component: () => import('../views/About.vue')
     },
     {
       path: '/login',
       name:'login',
       component: () => import('../views/Login.vue')
+    },
+    {
+      path: '/dashboard',
+      name:'dashboard',
+      component: () => import('../views/Dashboard.vue')
+    },
+    {
+      path: '/plant',
+      name: 'Plant',
+      component: () => import('../views/AdminPlant.vue')
     },
     {
       path: '/:pathMatch(.*)*',

@@ -22,7 +22,7 @@ export default{
   <nav class="sticky w-screen flex p-4 sm:p-6 items-center justify-between text-xl bg-white z-50 overflow-hidden top-0">
     <div class="flex items-center -mt-1.5">
       <img src="/favicon.svg" alt="" class="w-[38px] rounded-lg">
-      <a href="" class="mx-3 text-green-800 sm:font-semibold">Desa Songo</a>
+      <a href="" class="mx-3 text-green-800 sm:font-semibold">Kampung Songo</a>
     </div>
 
     <!-- dropdown -->

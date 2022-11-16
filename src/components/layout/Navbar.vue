@@ -1,19 +1,19 @@
 <template>
     <!-- navbar -->
-    <nav class="fixed w-full z-50 top-0 overflow-hidden"
+    <nav class="fixed w-full z-50 top-0 left-0 overflow-hidden"
         :class="{ 'bg-white transition duration-300': onScroll || !transparent_background || dropdown, 'border-b-[1px]': onScroll || !transparent_background || dropdown, 'bg-none': !onScroll && transparent_background && !dropdown}">
         <div class="w-full lg:max-w-[1140px] md:max-w-[768px] flex justify-between mx-auto py-3 px-[15px]">
             <a href="" class="flex items-center hover:no-underline">
-                <img src="/favicon.svg" alt="" class="w-[38px] mr-2">
-                <span class="text-base font-semibold">Desa <span class="text-green-400">Songo</span></span>
+                <img :src="(onScroll || !transparent_background || dropdown) ? '/logo-kampung.webp' : '/logo-kampung-putih.webp'" alt="" class="w-[40px] mr-2">
+                <span class="text-base font-semibold">Kampung <span class="text-green-400">Songo</span></span>
             </a>
 
             <div class="lg:flex hidden items-center text-base gap-x-10">
                 <router-link to="/" class="nav-link">Home</router-link>
                 <router-link to="/urban-farming" class="nav-link">Urban Farming</router-link>
-                <router-link to="/blog/tanaman" class="nav-link">Tanaman</router-link>
+                <router-link to="/tanaman" class="nav-link">Tanaman</router-link>
                 <router-link to="/blog" class="nav-link">Blog</router-link>
-                <router-link to="/blog/about" class="nav-link">About</router-link>
+                <router-link to="/about" class="nav-link">About</router-link>
             </div>
 
             <!-- burger button -->
@@ -32,9 +32,9 @@
                 <router-link to="/" class="mt-4 hover:no-underline nav-link-dropdown">Home</router-link>
                 <router-link to="/urban-farming" class="hover:no-underline nav-link-dropdown">Urban Farming
                 </router-link>
-                <router-link to="/blog/tanaman" class="hover:no-underline nav-link-dropdown">Tanaman</router-link>
+                <router-link to="/tanaman" class="hover:no-underline nav-link-dropdown">Tanaman</router-link>
                 <router-link to="/blog" class="hover:no-underline nav-link-dropdown">Blog</router-link>
-                <router-link to="/blog/about" class="hover:no-underline nav-link-dropdown mb-8">About</router-link>
+                <router-link to="/about" class="hover:no-underline nav-link-dropdown mb-8">About</router-link>
             </div>
         </div>
     </nav>
