@@ -14,6 +14,7 @@
                 <router-link to="/tanaman" class="nav-link">Tanaman</router-link>
                 <router-link to="/blog" class="nav-link">Blog</router-link>
                 <router-link to="/about" class="nav-link">About</router-link>
+                <router-link to="/login" class="nav-link">Login</router-link>
             </div>
 
             <!-- burger button -->
@@ -34,7 +35,8 @@
                 </router-link>
                 <router-link to="/tanaman" class="hover:no-underline nav-link-dropdown">Tanaman</router-link>
                 <router-link to="/blog" class="hover:no-underline nav-link-dropdown">Blog</router-link>
-                <router-link to="/about" class="hover:no-underline nav-link-dropdown mb-8">About</router-link>
+                <router-link to="/about" class="hover:no-underline nav-link-dropdown">About</router-link>
+                <router-link to="/login" class="hover:no-underline nav-link-dropdown mb-8">Login</router-link>
             </div>
         </div>
     </nav>
