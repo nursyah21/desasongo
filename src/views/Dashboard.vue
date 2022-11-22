@@ -3,14 +3,12 @@ import { Modal, Loading, Footer } from '../components';
 import utils from '../utils';
 import router from '../router';
 import { supabase } from '../supabase';
-import * as vselect from 'vue-select'
 
 export default {
   components: {
     Modal,
     Loading,
     Footer,
-    vselect
   },
   mounted() {
     this.autologin()
