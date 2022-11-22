@@ -3,12 +3,14 @@ import { Modal, Loading, Footer } from '../components';
 import utils from '../utils';
 import router from '../router';
 import { supabase } from '../supabase';
+import * as vselect from 'vue-select'
 
 export default {
   components: {
     Modal,
     Loading,
-    Footer
+    Footer,
+    vselect
   },
   mounted() {
     this.autologin()
@@ -22,6 +24,7 @@ export default {
     } else {
       this.move(0);
     }
+    console.log(`asd ${this.hidroponik.ppm}`)
   },
   data() {
     return {
@@ -42,7 +45,12 @@ export default {
         mode: true, //write
         ppm: 0, //write 0-1500
         ppmvalid: true,
-        time_auto: 0
+        time_auto: 0,
+        ppmtarget: [
+          {name:'600-800', value: 600},
+          {name:'800-1000', value:800},
+          {name:'1000-1200', value:1000}
+        ]
       },
       stats: {
         blog: true,
@@ -388,9 +396,11 @@ export default {
         </div>
         <!-- ppm w -->
         <div class="rounded-md p-2 m-2 w-36 sm:w-48 text-center bg-lime-600 text-white cursor-pointer">
-          <span class="underline">ppm target (0-1500)</span><br>
-          <input @click="refreshStatus = 'async'" type="number" v-model="hidroponik.ppm"
-            class="bg-lime-600 text-center outline-none border w-24" min="0" max="1500">
+          <span class="underline">ppm target</span><br>
+          <select class="bg-lime-600 text-center" @change="refreshStatus = 'async'" v-model="hidroponik.ppm">
+            <option class="text-center" v-for="i,idx in hidroponik.ppmtarget" :value="i.value" @select="hidroponik.ppm = i.value">{{i.name}}</option>
+          </select>
+
         </div>
         <!-- time auto -->
         <div class="rounded-md p-2 m-2 w-36 sm:w-48 text-center bg-lime-600 text-white cursor-pointer">
