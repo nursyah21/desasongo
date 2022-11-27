@@ -14,7 +14,7 @@ export default {
     async mounted() {
         await this.autologin();
         this.count_plant = await utils.getCountTanaman()
-        // await this.getData();
+        await this.getData();
         this.$watch(
             () => this.cur,
             (toParams, previousParams) => {
