@@ -59,8 +59,8 @@ export default {
       <div class="mt-16 md:mt-0">
         <h1 class="title"><span class="text-green-500">Profile</span> <span class="text-green-500 font-normal">Kampung
             Songo</span></h1>
-        <div class="w-full flex overflow-x-scroll gap-x-5 pb-1 mb-3">
-          <img src="/img3.png" class="rounded-lg w-1/2" />
+        <div class="w-full flex gap-x-5 pb-1 mb-3">
+          <!-- <img src="/img3.png" class="rounded-lg w-1/2" /> -->
           <img src="/img4.png" class="rounded-lg w-1/2" />
           <img src="/img5.jpg" class="rounded-lg w-1/2" />
         </div>

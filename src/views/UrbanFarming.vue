@@ -41,7 +41,7 @@ export default {
                     taninya sendiri.</p>
             </div>
             <div class="mt-16 md:mt-0">
-                <img src="/urban-farming.webp" class="rounded-lg" alt="">
+                <img src="/img3.png" class="rounded-lg" alt="">
             </div>
         </div>
         <div class="mt-16">
