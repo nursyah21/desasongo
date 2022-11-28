@@ -26,7 +26,7 @@ export default {
 <template>
     <navbar></navbar>
     <!-- body -->
-    <div id="body" class="w-full lg:max-w-[1140px] md:max-w-[768px] px-[15px] mx-auto mt-32 mb-16">
+    <div id="body" class="w-full lg:max-w-[1240px] md:max-w-[768px] px-[15px] mx-auto mt-32 mb-16">
         <div class="md:grid grid-cols-2 gap-x-10">
             <div>
                 <h1 class="title"><span class="text-green-500 font-normal">Sekilas</span> <span

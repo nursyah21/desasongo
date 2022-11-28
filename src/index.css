@@ -81,6 +81,14 @@
     @apply text-white;
   }
 
+  .bg-none .dropdown a {
+    @apply text-black;
+  }
+
+  .bg-none .dropdown a.active {
+    @apply text-green-500;
+  }
+
 
   .btn-dropdown{
     @apply relative z-10 block p-2 text-gray-700 bg-white border rounded-md dark:text-white hover:border-blue-500; 

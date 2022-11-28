@@ -26,7 +26,7 @@ export default {
 <template>
     <navbar></navbar>
     <!-- body -->
-    <div id="body" class="w-full lg:max-w-[1140px] md:max-w-[768px] px-[15px] mx-auto mt-32 mb-16">
+    <div id="body" class="w-full lg:max-w-[1240px] md:max-w-[768px] px-[15px] mx-auto mt-32 mb-16">
         <div class="flex flex-col lg:flex-row justify-between gap-x-10">
             <div class="w-full lg:w-1/2">
                 <h1 class="title"><span class="text-green-500 font-normal">Sekilas</span> <span

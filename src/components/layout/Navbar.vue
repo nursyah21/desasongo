@@ -1,8 +1,8 @@
 <template>
     <!-- navbar -->
-    <nav class="fixed w-full z-50 top-0 left-0 overflow-hidden"
-        :class="{ 'bg-white transition duration-300': onScroll || !transparent_background || dropdown, 'border-b-[1px]': onScroll || !transparent_background || dropdown, 'bg-none': !onScroll && transparent_background && !dropdown}">
-        <div class="w-full lg:max-w-[1140px] md:max-w-[768px] flex justify-between mx-auto py-3 px-[15px]">
+    <nav class="fixed w-full z-50 top-0 left-0 overflow-hidden border-b-[1px]"
+        :class="{'bg-white transition duration-300': onScroll || !transparent_background || dropdown, 'bg-none border-transparent': !onScroll && transparent_background && !dropdown}">
+        <div class="w-full lg:max-w-[1240px] md:max-w-[768px] flex justify-between mx-auto py-3 px-[15px]">
             <a href="" class="flex items-center hover:no-underline">
                 <img :src="(onScroll || !transparent_background || dropdown) ? '/logo-kampung.webp' : '/logo-kampung-putih.webp'" alt="" class="w-[40px] mr-2">
                 <span class="text-base font-semibold">Kampung <span class="text-green-400">Songo</span></span>
@@ -12,6 +12,7 @@
                 <router-link to="/" class="nav-link">Home</router-link>
                 <router-link to="/urban-farming" class="nav-link">Urban Farming</router-link>
                 <router-link to="/tanaman" class="nav-link">Tanaman</router-link>
+                <router-link to="/solar-panel" class="nav-link">Solar Panel</router-link>
                 <router-link to="/blog" class="nav-link">Blog</router-link>
                 <router-link to="/about" class="nav-link">About</router-link>
                 <router-link to="/login" class="nav-link">Login</router-link>
@@ -27,13 +28,14 @@
 
             </button>
         </div>
-        <div class="bg-white w-full">
-            <div class="bg-white w-full lg:max-w-[1140px] md:max-w-[768px] mx-auto px-[15px] transition-height text-sm font-semibold flex flex-col gap-y-4"
+        <div class="bg-white w-full dropdown">
+            <div class="bg-white w-full lg:max-w-[1240px] md:max-w-[768px] mx-auto px-[15px] delay-100 transition-height text-sm font-semibold flex flex-col gap-y-4"
                 :class="{ 'max-h-0': !dropdown, 'max-h-[400px]': dropdown }">
                 <router-link to="/" class="mt-4 hover:no-underline nav-link-dropdown">Home</router-link>
                 <router-link to="/urban-farming" class="hover:no-underline nav-link-dropdown">Urban Farming
                 </router-link>
                 <router-link to="/tanaman" class="hover:no-underline nav-link-dropdown">Tanaman</router-link>
+                <router-link to="/solar-panel" class="hover:no-underline nav-link-dropdown">Solar Panel</router-link>
                 <router-link to="/blog" class="hover:no-underline nav-link-dropdown">Blog</router-link>
                 <router-link to="/about" class="hover:no-underline nav-link-dropdown">About</router-link>
                 <router-link to="/login" class="hover:no-underline nav-link-dropdown mb-8">Login</router-link>
@@ -79,7 +81,15 @@ export default {
         });
     },
     method: {
-
+        openDropdown() {
+            if (this.dropdown) {
+                setTimeout(() => {
+                    this.dropdown = false
+                }, 300)
+            } else {
+                this.dropdown = true
+            }
+        }
     }
 }
 </script>

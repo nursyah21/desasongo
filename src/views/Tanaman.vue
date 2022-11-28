@@ -63,7 +63,7 @@ export default {
 <template>
     <navbar></navbar>
     <!-- body -->
-    <div id="body" class="min-h-[70vh] w-full lg:max-w-[1140px] md:max-w-[768px] px-[15px] mx-auto mt-32 mb-16">
+    <div id="body" class="min-h-[70vh] w-full lg:max-w-[1240px] md:max-w-[768px] px-[15px] mx-auto mt-32 mb-16">
         <div v-if="tabulampot.length > 0">
             <div class="flex flex-col md:flex-row">
                 <h1 class="title">TABULAMPOT (TANAMAN BUAH DALAM POT)</h1>

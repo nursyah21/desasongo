@@ -41,7 +41,7 @@ export default {
 <template>
     <navbar></navbar>
     <!-- body -->
-    <div id="body" class="w-full lg:max-w-[1140px] md:max-w-[768px] px-[15px] mx-auto mt-32 mb-16">
+    <div id="body" class="w-full lg:max-w-[1240px] md:max-w-[768px] px-[15px] mx-auto mt-32 mb-16">
         <h1 class="title" v-if="$route.params.category == 'tabulampot'">TABULAMPOT (TANAMAN BUAH DALAM POT)</h1>
         <h1 class="title" v-if="$route.params.category == 'tasalampot'">TASALAMPOT (TANAMAN SAYUR DALAM POT)</h1>
         <h1 class="title" v-if="$route.params.category == 'hidroponik'">HIDROPONIK</h1>

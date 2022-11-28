@@ -7,6 +7,7 @@ export default {
       loading_carousel: false,
       loading: false,
       blogs_active: 0,
+      hide_carousel: false,
       blogs_3: [],
       blogs: [],
       interval: null,
@@ -39,11 +40,15 @@ export default {
         clearInterval(this.interval);
       }
       this.interval = window.setInterval(() => {
+        this.hide_carousel = true
         if (this.blogs_active < 2) {
           this.blogs_active++;
         } else {
           this.blogs_active = 0;
         }
+        setTimeout(() => {
+          this.hide_carousel = false
+        }, 100)
       }, 7000);
     },
     readMore(id) {
@@ -62,7 +67,7 @@ export default {
   <navbar></navbar>
   <div class="w-full h-[400px] bg-[url('/gallery_ss3.webp')] bg-cover bg-center mt-16">
     <div class="w-full h-full bg-[rgba(0,0,0,.6)]">
-      <div class="w-full h-full lg:max-w-[1140px] md:max-w-[768px] px-[15px] mx-auto flex items-center">
+      <div class="w-full h-full lg:max-w-[1240px] md:max-w-[768px] px-[15px] mx-auto flex items-center">
         <span class="text-white text-4xl font-extrabold leading-[43px]">Semua Berita,<br>
           Cerita, Suara,<br>
           dan wawasan dari<br>
@@ -71,11 +76,12 @@ export default {
     </div>
   </div>
   <div class="w-full h-[450px] bg-gray-100 hidden sm:block">
-    <div class="w-full h-full lg:max-w-[1140px] md:max-w-[768px] px-[15px] mx-auto py-16"
+    <div class="w-full h-full lg:max-w-[1240px] md:max-w-[768px] px-[15px] mx-auto py-16"
       v-if="!loading_carousel && blogs_3.length > 0">
 
       <router-link :to="{ name: 'blog_by_id', params: { id: blogs_3[blogs_active].link } }"
-        class="no-underline text-black hover:no-underline bg-white rounded-lg border shadow-lg w-full h-full flex justify-between mb-6">
+        class="no-underline text-black hover:no-underline bg-white rounded-lg border shadow-lg w-full h-full flex justify-between mb-6 transition-opacity duration-1000"
+        :class="{ 'opacity-0': hide_carousel, 'opacity-100': !hide_carousel }">
 
         <div class="w-1/2 p-10">
           <h1 class="font-semibold text-xl tracking-wide sm:mb-4 line-clamp-2">{{ blogs_3[blogs_active].title }}</h1>
@@ -96,8 +102,9 @@ export default {
     </div>
   </div>
   <!-- body -->
-  <div id="body" class="w-full lg:max-w-[1140px] md:max-w-[768px] px-[15px] mx-auto mt-16 mb-16">
-    <h1 class="title">Semua Artikel</h1>
+  <div id="body" class="w-full lg:max-w-[1240px] md:max-w-[768px] px-[15px] mx-auto mt-16 mb-16">
+    <h1 class="title"><span class="text-green-500 font-normal">Semua</span> <span
+                        class="text-green-500">Artikel</span></h1>
     <div v-if="!loading_carousel && blogs_3.length > 0" class="block sm:hidden">
       <router-link v-for="data in blogs_3" :to="{ name: 'blog_by_id', params: { id: data.link } }"
         class="no-underline text-black hover:no-underline transition-transform duration-300 cursor-pointer bg-white rounded-lg border shadow-lg w-full sm:h-[240px] sm:hover:scale-105 flex flex-col-reverse sm:flex-row justify-between mb-6">

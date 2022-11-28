@@ -46,7 +46,7 @@ export default {
 
 
   <!-- body -->
-  <div id="body" class="w-full lg:max-w-[1140px] md:max-w-[768px] px-[15px] mx-auto pt-16">
+  <div id="body" class="w-full lg:max-w-[1240px] md:max-w-[768px] px-[15px] mx-auto pt-16">
     <div class="grid md:grid-cols-2 gap-x-10">
       <div>
         <h1 class="title"><span class="text-green-500">Video</span> <span
@@ -79,7 +79,7 @@ export default {
     </div>
   </div>
   <section class="overflow-hidden text-gray-700">
-    <div class="w-full lg:max-w-[1140px] md:max-w-[768px] px-[15px] mx-auto pt-16">
+    <div class="w-full lg:max-w-[1240px] md:max-w-[768px] px-[15px] mx-auto pt-16">
       <h1 class="title"><span class="text-green-500">Gallery</span> <span class="text-green-500 font-normal">Kampung
           Songo</span></h1>
       <div class="flex flex-wrap -m-1 md:-m-2">

@@ -1,6 +1,6 @@
 <template>
     <div class="bg-gradient-to-r from-gray-800 to-gray-700 w-full text-white">
-        <div class="w-full lg:max-w-[1140px] md:max-w-[768px] px-[15px] mx-auto py-10">
+        <div class="w-full lg:max-w-[1240px] md:max-w-[768px] px-[15px] mx-auto py-10">
             <!-- lokasi -->
             <div class="md:flex justify-between">
                 <div class="w-1/2">

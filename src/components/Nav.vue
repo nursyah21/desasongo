@@ -38,6 +38,7 @@ export default{
       <a href="/" class="nav-link" :class="{'underline': stats == 'home'}">Home</a>
       <a href="/blog/urban-farming" class="nav-link" :class="{'underline': stats == 'urbanFarming'}">Urban Farming</a>
       <a href="/blog/tanaman" class="nav-link" :class="{'underline': stats == 'tanaman'}">Tanaman</a>
+      <a href="/blog/tanaman" class="nav-link" :class="{'underline': stats == 'tanaman'}">Tanaman</a>
       <a href="/list-blog" class="nav-link" :class="{'underline': stats == 'blog'}">Blog</a>
       <a href="/blog/tentang-desa-songo" class="nav-link" :class="{'underline': stats == 'about'}">About</a>
     </div>

@@ -156,7 +156,7 @@ export default {
 <template>
   <navbar></navbar>
   <!-- body -->
-  <div id="body" class="w-full lg:max-w-[1140px] md:max-w-[768px] px-[15px] mx-auto mt-32 mb-16">
+  <div id="body" class="w-full lg:max-w-[1240px] md:max-w-[768px] px-[15px] mx-auto mt-32 mb-16">
     <div class="w-full lg:flex divide-x-0 lg:divide-x-[1px]">
       <div class="w-full lg:w-7/12 px-0 lg:pr-10">
         <h1 class="text-3xl font-semibold text-green-600">{{ blog.title }}</h1>

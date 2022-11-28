@@ -55,6 +55,11 @@ const router = createRouter({
       component: () => import('../views/AdminPlant.vue')
     },
     {
+      path: '/solar-panel',
+      name: 'SolarPanel',
+      component: () => import('../views/SolarPanel.vue')
+    },
+    {
       path: '/:pathMatch(.*)*',
       name: '404',
       component: () => import('../views/404.vue')
